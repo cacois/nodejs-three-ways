@@ -5,7 +5,9 @@
  */
 
 // Require statements - include necessary Node.js modules
-var redis = require("redis");
+var redis = require("redis"),
+    mailer = require('nodemailer');
+
 // read in the config file as a JavaScript object
 var config = require("./config.js")
 
@@ -54,19 +56,39 @@ function acquireLock(payload, attempt, callback) {
     });
 }
 
+function lockCallback(data) {
+    if(data.acquired == true) {
+        console.log("I got the lock!");
 
-function sendMessage(payload, lockIdentifier, lastAttempt) {
-    // Does some work to process the payload and generate an APNS notification object
-    var notification = generateApnsNotification(payload);
-
-    if (notification) {
-        // The APNS connection is defined/initialized elsewhere
-        apnsConnection.sendNotification(notification);
-
-        if (lastAttempt) {
-            client.del(lockIdentifier);
-        } else {
-            client.set(lockIdentifier, DONE_VALUE);
-        }
+        // send email notification
+        console.log("Sending email...");
+        sendMessage(data);
     }
+    else console.log("No lock for me :(");
+}
+
+function sendMessage(payload) {
+    console.log("Sending mail...");
+    var smtpTransport = mailer.createTransport("SMTP",{
+        service: "Gmail",
+        auth: {
+            user: "<Google username>",
+            pass: "<your Google application-specific password>"
+        }
+    });
+
+    var mailOptions = {
+        from: "<email>", // sender address
+        to: "<email>", // list of receivers
+        subject: "Notification from Node.js", // Subject line
+        text: "You are hereby notified!", // plaintext body
+        html: "<b>You are hereby notified!</b>" // html body
+    };
+
+    smtpTransport.sendMail(mailOptions, function(error, response){
+        if(error) console.log("Error sending mail: " + error);
+        else console.log("Message sent: " + response.message);
+
+        smtpTransport.close(); // shut down the connection pool, no more messages
+    });
 }

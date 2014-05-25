@@ -1,0 +1,10 @@
+{
+  "name": "act-1-network-services",
+  "author": "C. Aaron Cois <aaron.cois@gmail.com>",
+  "version": "1.0.0",
+  "dependencies": {
+    "redis": "*",
+    "nodemailer": "*"
+  },
+  "engine": { "node" : ">=0.10.0" }
+}
