@@ -24,27 +24,26 @@ pubsubClient.on("message", handleMessage);
 //==== Methods ====//
 
 /**
- * Callback function to handle an incoming message received from Redis notifications channel
+ * Callback function to handle an incoming message received
+ * from Redis notifications channel
  */
 function handleMessage(channel, message) {
-    console.log('Handling message!')
+    console.log('Handling message! %s', message)
 
     var payload = JSON.parse(message);
 
     acquireLock(payload, 1, lockCallback);
 }
 
+/**
+ * Function to try to acquire a lock to send a notification
+ * for the incoming message
+ */
 function acquireLock(payload, attempt, callback) {
     // create a lock id string
     var lockIdentifier = "lock." + payload.identifier;
 
-    function dataForCallback(acquired) {
-        return {
-            "acquired" : acquired,
-            "lockIdentifier" : lockIdentifier,
-            "payload" : payload
-        };
-    }
+    console.log("Trying to obtain lock: %s", lockIdentifier);
 
     client.setnx(lockIdentifier, "My Name", function(error, success) {
         if (error) {
@@ -52,23 +51,36 @@ function acquireLock(payload, attempt, callback) {
             return callback(error, dataForCallback(false));
         }
 
-        return callback(null, dataForCallback(success));
+        var data = {
+            "acquired" : acquired,
+            "lockIdentifier" : lockIdentifier,
+            "payload" : payload
+        };
+        return callback(data);
     });
 }
 
+/**
+ * A callback function invoked after a lock acquisition attempt
+ */
 function lockCallback(data) {
     if(data.acquired == true) {
         console.log("I got the lock!");
 
         // send email notification
-        console.log("Sending email...");
         sendMessage(data);
     }
     else console.log("No lock for me :(");
 }
 
+/**
+ * A function to send an email using Google's SMTP server
+ *
+ * Note: remember to get an application-specific password from your
+ * Google account and paste it in below.
+ */
 function sendMessage(payload) {
-    console.log("Sending mail...");
+    console.log("Sending email notification...");
     var smtpTransport = mailer.createTransport("SMTP",{
         service: "Gmail",
         auth: {
