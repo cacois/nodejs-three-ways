@@ -1,0 +1,79 @@
+<%- include _header.ejs %>
+
+    <h1>Werld</h1>
+    <h2>Welcome to Werldchat!</h2>
+
+    <p>There are <span id="people_count"><%= count-1 %></span> other people on the planet.</p>
+
+    <input id="my_name" type="text" name="my_name" value="" placeholder="Your nickname.." />
+    <input id="connect" type="submit" />
+
+    <div id="chatlog"></div>
+    <textarea id="chatwindow" cols="30" rows="10"></textarea>
+    <input id="send_chat" type="submit" value="Send" disabled="true"/>
+
+<%- include _js_includes.ejs %>
+
+<script type="text/javascript">
+  	   
+  var chat_socket;
+
+  $(document).ready(function(){ 
+
+    // -- as soon as the document is ready, we connect to the Socket.IO socket
+    // -- and begin receiving 'people count' updates and chat messages
+    chat_socket = io.connect('http://localhost:3001/chat');
+
+      chat_socket.of('/chat').on('connect_failed', function(reason){
+
+      console.log(reason);
+
+    }).on('connect', function(){
+
+      console.log("connected");
+    });
+
+    // -- socket on() calls register listeners, or handlers, for named events
+
+    chat_socket.on('people_count', function(data){
+      $("#people_count").text(data.people_count);
+    });
+
+    chat_socket.on('chat', function(data){
+      $("#chatlog").append($("<p></p>").text(data.isay));
+    });
+
+    // -- When the user has emitted their nickname to the socket (below), the server will emit 'name_ready'
+    // -- so we know to go ahead and enable the chat form
+    chat_socket.on('name_ready', function(data){
+
+      // -- assign the click event to the 'send' button
+      // -- this handler will simply emit the message to the socket
+      // -- and clear the input
+      $(document).on('click', "#send_chat", function(e){
+      
+        chat_socket.emit('chat', {isay: $("#chatwindow").val()});
+        $("#chatwindow").val("");
+      });
+
+      $("#send_chat").prop("disabled", "");
+    });
+  });  
+
+  // -- only when the user has submitted a valid nickname do we enable their chat 'send' form
+  $(document).on('click', '#connect', function(e){
+
+    // -- we don't want blank nicknames
+    if($("#my_name").val() == ""){
+      return;
+    }
+
+    // -- this will tell Socket.IO to store the nickname on the socket
+    // -- emit() calls are asynchronous, so we don't initialize the chat form immmediately below this line
+    // -- instead, we listen for the 'name_ready' event (above) and do it there
+    chat_socket.emit('set nickname', $("#my_name").val());
+  });
+
+	</script>
+
+<%- include _footer.ejs %>
