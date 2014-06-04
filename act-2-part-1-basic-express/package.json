@@ -1,0 +1,9 @@
+{
+  "name": "Basic Express App",
+  "description": "A minimal NodeJS express web application",
+  "version": "0.0.1",
+  "private": true,
+  "dependencies": {
+    "express": "4.4.0"
+  }
+}

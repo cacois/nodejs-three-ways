@@ -2,7 +2,7 @@
 
 > npm install
 
-to install all necessary modules automaticallly from package.json, or manualyl install them:
+to install all necessary modules automaticallly from package.json, or manually install them:
 
 > npm install redis
 
