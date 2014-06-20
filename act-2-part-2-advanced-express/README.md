@@ -116,7 +116,7 @@ Now test your application at
 
 Next, we'll create a model to describe our data. For this example, we'll simply log each visit to the site.
 
-_Note: This will require creating a new folder, _/models_, in the root of the application._
+_Note: This will require creating a new folder, /models, in the root of the application._
 
 In a new _/models_ folder, create a file _visit.js_:
 
