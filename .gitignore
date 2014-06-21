@@ -28,6 +28,5 @@ node_modules
 *.rdb
 
 # Meteor local files
-.meteor
 smart.lock
 packages
