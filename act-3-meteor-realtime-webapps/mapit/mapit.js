@@ -25,6 +25,7 @@ if (Meteor.isClient) {
       doubleClickZoom: false
     }).setView([45.52854352208366,-122.66302943229674], 13);
 
+    // assign click event to add markers
     window.map.on('click', function(event, object) {
         // We're storing the marker coordinates in an extensibel JSON
         // data structure, to leave room to add more info later

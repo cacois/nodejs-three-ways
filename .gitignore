@@ -26,7 +26,3 @@ node_modules
 
 # Database files
 *.rdb
-
-# Meteor local files
-smart.lock
-packages
