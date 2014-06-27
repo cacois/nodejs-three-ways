@@ -3,7 +3,18 @@
 </head>
 
 <body>
-    {{> map}}
+    <!--BOOM. Free authentication. You can get the current user with Meteor.user(), or their userid by Meteor.userId() -->
+    <div>
+      {{> loginButtons}}
+    </div>
+    <div>
+      <div style="width: 70%; float: left">
+        {{> map}}
+      </div>
+      <div style="float: right">
+        {{> markerlist}}
+      </div>
+    </div>
 </body>
 
 <template name="map">
@@ -11,4 +22,21 @@
       <h1 class="title">Mapit!</h1>
       <div id="map" class="map"></div>
     </div>
+</template>
+
+<template name="markerlist">
+  {{#each markers}}
+    <div>
+      <b>Marker</b><br>
+      <span>-- Coordinates: {{coords}}</span><br>
+      <span>-- Added by user: {{user}}</span>
+    </div><br>
+  {{/each}}
+</template>
+
+<template name="userlist">
+    {{#each users}}
+      user:
+      {{user}}
+    {{/each}}
 </template>

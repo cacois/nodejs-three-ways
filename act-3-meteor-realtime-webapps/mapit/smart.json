@@ -1,5 +1,5 @@
 {
   "packages": {
-    "leaflet": {0.3.8}
+    "leaflet": "0.3.8"
   }
 }

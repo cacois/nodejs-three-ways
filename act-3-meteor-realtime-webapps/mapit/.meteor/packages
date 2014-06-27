@@ -6,3 +6,5 @@
 standard-app-packages
 insecure
 leaflet
+accounts-ui
+accounts-password

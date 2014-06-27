@@ -17,6 +17,14 @@ if (Meteor.isClient) {
     }
 });*/
 
+  Template.userlist.users = function() {
+    return Meteor.users.find({});
+  };
+
+  Template.markerlist.markers = function() {
+    return Markers.find({});
+  };
+
   Template.map.rendered = function() {
     L.Icon.Default.imagePath = 'packages/leaflet/images';
 
