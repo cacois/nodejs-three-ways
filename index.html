@@ -16,7 +16,7 @@
         <!-- Wrap all slides in a single "slides" class -->
         <div class="slides">
 
-            <!-- Act 1: Node.js Network Services -->
+            <!-- Introduction -->
             <section>
                 <h1>Node.js Three Ways</h1>
                 <h2>A Tutorial in Three Acts</h2>
@@ -40,7 +40,7 @@
             </section>
 
 
-
+            <!-- Act 1: Node.js Network Services -->
             <section>
                 <h1>Act 1</h1>
                 <h2>Node.js Network Services</h2>
@@ -106,7 +106,7 @@
                       "version": "0.0.1",
                       "private": true,
                       "dependencies": {
-                        "express": "4.4.0" 
+                        "express": "4.4.0"
                       }
                     }
                 </code></pre>
@@ -114,7 +114,7 @@
                 <h3>Hint</h3> To find the latest available version of a module
                 <pre><code data-trim>
                     $ npm info express version
-                </code></pre>        
+                </code></pre>
                 Or you can simply say
                 <pre><code data-trim>
                     "express": "*"
@@ -250,7 +250,7 @@
             var routes = require('./routes/index');
             var users = require('./routes/users');
             var visits = require('./routes/visits'); // -- the route
-            ...                    
+            ...
             app.use('/', routes);
             app.use('/users', users);
             app.use('/visits', visits); // -- the request assignment
@@ -274,7 +274,7 @@
                     "debug": "~0.7.4",
                     "ejs": "~0.8.5",
                     "mongoose": "3.8.12"
-                  } 
+                  }
                 }
                 </code></pre>
                 <h3>and install</h3>
@@ -310,10 +310,10 @@
 
             // -- we run some code inline with each request
             app.use(function(req, res, next){
-                new Visit({user_agent: req.headers['user-agent']}).save();                    
+                new Visit({user_agent: req.headers['user-agent']}).save();
                 next();
             });
-                </code></pre>                
+                </code></pre>
             </section>
 
             <section>
@@ -342,7 +342,7 @@
 
               query.exec(function(err, visits){
                 res.render('visits', { my_name: "Tim", visits: visits });
-              });  
+              });
             });
             ..
                 </code></pre>
@@ -396,7 +396,7 @@
                         "ejs": "~0.8.5",
                         "mongoose": "3.8.12",
                         "socket.io": "1.0.3"
-                      } 
+                      }
                     }
                 </code></pre>
                 <h3>And install</h3>
@@ -419,10 +419,10 @@
                 <h3>We define "endpoints", or "namespaces" for the server, much like routes.</h3>
                 <pre><code data-trim>
             // -- '/chat' is the namespace identifier
-            // -- the callback function is the middleware we define 
+            // -- the callback function is the middleware we define
             // -- for the namespace identifier
             var chat = io.of('/chat').on('connection', function(socket){
-                socket.on('chat', function(data){      
+                socket.on('chat', function(data){
                     data.color = 'green';
                     socket.emit('chat', data);
                     data.color = 'red';
@@ -469,7 +469,156 @@
         &lt;/script&gt;
                 </code></pre>
             </section>
-            
+
+            <!-- Act 3: Meteor.js and Reactive Apps -->
+            <section>
+                <h1>Act 3 (Denouement)</h1>
+                <h2>Meteor</h2>
+            </section>
+
+            <section>
+                <h1>Meteor</h1>
+                <h3>A web app framework for real-time, reactive apps</h3>
+                <h3>* powered by Node.js</h3>
+            </section>
+            <section>
+                <h1>Real-time</h1>
+                <h3>Server pushes data to all clients, immediately</h3>
+            </section>
+            <section>
+                <h1>Reactive</h1>
+                <h3>Changes on any client are immediately pushed to all other clients</h3>
+            </section>
+            <section>
+                <h1>Slick, huh?</h1>
+            </section>
+            <section>
+                <h2>Meteor is designed for single page apps</h2><br>
+                <h4>So, no routing or multiple views out of the box</h4>
+                (Though you can add them with packages)
+            </section>
+            <section>
+                <h2>Let's check it out</h2>
+                <h3>Install Meteor, and create a new dir</h3>
+                <pre><code data-trim>
+                $ npm install meteor -g
+                $ mkdir node-act3
+                $ cd node-act3
+                </code></pre>
+            </section>
+            <section>
+                <h2>Meteor has a generator, too!</h2>
+                <pre><code data-trim>
+                $ meteor create mapit
+                $ meteor
+                </code></pre>
+                <h4>Run "meteor --help" if you want to see behind the curtain</h4>
+
+                <h3>and visit</h3>
+                <h2>http://localhost:3000</h2>
+            </section>
+            <section>
+                <h2>You'll notice that meteor claims it has started MongoDB</h2>
+                <h4>...even if you don't have MongoDB installed...</h4>
+            </section>
+            <section>
+                <h1>That's because </h1><h1>Meteor is a liar!</h1>
+            </section>
+            <section>
+                <h2>Just kidding!</h2>
+                <h3>It's really because meteor has installed its own</h3><h3> embedded instance of Mongodb</h3>
+                <h4>You can access it using:</h4>
+                <pre><code data-trim>
+                $ meteor mongo
+                </code></pre>
+            </section>
+            <section>
+                <h2>Let's check out the generated code</h2>
+            </section>
+            <section>
+                <h2>Fibers</h2>
+                <h3>Meteor uses a node.js library called <em>fibers</em>,</h3>
+                <h3>which allows sequential execution of async functions, without callbacks</h3>
+            </section>
+            <section>
+                <h2>We don't have time to go into how fibers works, but it's pretty cool</h2>
+                <h4>If you want to learn more: </h4>
+                http://howtonode.org/generators-vs-fibers
+                http://meteorhacks.com/fibers-eventloop-and-meteor.html
+            </section>
+            <section>
+                <h2>This means meteor apps are straightforward to program</h2>
+                <br>
+                <h3>At the cost of some "framework magic"</h3>
+            </section>
+            <section>
+                <h2>Meteor uses 3 default files:</h2>
+                <ul>
+                    <li>mapit.js -- client javascript and server code-behind</li>
+                    <li>mapit.css -- styles</li>
+                    <li>mapit.html -- client template/view</li>
+                </ul>
+            </section>
+            <section>
+                <h2>You'll see two sections in the mapit.js file:</h2>
+                <pre><code data-trim>
+                    if (Meteor.isClient) {
+                        ...
+                    }
+                    if (Meteor.isServer) {
+                        ...
+                    }
+                </code></pre>
+            </section>
+            <section>
+                <h3>Any code outside these sections is <em>shared</em> between client and server</h3>
+                <br>
+                <h3>That's the beauty of an all-JavaScript app</h3>
+            </section>
+            <section>
+                <h2>Collections</h2>
+                <h4>Meteor stores data as javascipt objects in MongoDB collections</h4>
+                <img src="./images/mongo_collections.png" width="80%"></img>
+            </section>
+            <section>
+                <h2>But forget about HTTP POSTS or AJAX</h2>
+                <br>
+                <h3>With meteor you don't need them. Meteor handles all data synchronization between client and server.</h3>
+            </section>
+            <section>
+                <h1>Check this out</h1>
+                <br>
+                <h2>mapit.js:</h2>
+                <pre><code data-trim>
+                    Messages = new Meteor.collection('messages');
+                    if (Meteor.isClient) {
+                        
+                    }
+                    if (Meteor.isServer) {
+                        Meteor.startup(function () {
+                            Messages.insert({'text': 'First message'});
+                            Messages.insert({'text': 'Here\'s another'});
+                        }
+
+                        Meteor.publish("markers", function () {
+                            return Markers.find();
+                        });
+                    }
+                </code></pre>
+            </section>
+            <section>
+
+            </section>
+            <section>
+
+            </section>
+            <section>
+
+            </section>
+            <section>
+
+            </section>
+
         </div>
     </div>
     <script src="lib/js/head.min.js"></script>
