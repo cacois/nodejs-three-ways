@@ -34,12 +34,79 @@
                   <p>> JavaScript</p>
                   <p>> Server-side</p>
                   <p>> Event-driven</p>
+                  <p>> <em>Fast</em> and <em>Efficient</em></p>
             </section>
 
             <section>
+              <h2>JavaScript</h2>
               <img src="./images/write_all_the_code_in_javascript1.jpg"></img>
             </section>
+            <section>
+              <h1>Advantages to JS</h1>
+              <br><ul>
+                  <li>Familiar</li>
+                  <li>Low barrier to entry</li>
+                  <li>Team Redundancy</li>
+              </ul><br>
+             <p>(Easy for frontend devs to play on server-side)</p>
+            </section>
 
+            <section>
+              <h1>Event-driven</h1>
+              <br>
+            </section>
+            <section data-background="./images/v8-logo.png">
+              <h1>Fast</h1>
+              <br>
+              <h3>Node uses the V8 JavaScript engine powering Google Chrome</h3>
+              <h3>This means lightning fast JavaScript execution</h3>
+            </section>
+            <section>
+              <h1>Efficient</h1>
+              <h2>Node.js is <em>asynchronous</em></h2>
+              <br>
+              <p>This means you have to think a bit differently</p>
+            </section>
+            <section data-background="./images/event-loop-1.png" data-background-size="100%"/>
+            </section>
+            <section data-background="./images/event-loop-2.png"  data-background-size="100%"/>
+            </section>
+            <section data-background="./images/event-loop-3.png"  data-background-size="100%"/>
+            </section>
+            <section>
+              <h1>Callbacks</h1>
+              <pre><code>
+                fs = require('fs');
+ 
+                fs.readFile('f1.txt','utf8',function(err,data){
+                  if (err) {
+                    // handle error
+                  }
+                  console.log(data);
+                });
+              </code></pre>
+            </section>
+            <section>
+              <h1>Callbacks</h1>
+              <h3>Equivalent Syntax </h3>
+              <pre><code>
+                fs = require('fs');
+ 
+                fs.readFile('f1.txt','utf8',
+
+                  function(err,data) {
+                    if (err) {
+                      // handle error
+                    }
+                    console.log(data);
+                  }
+
+                );
+              </code></pre>
+            </section>
+            <section>
+              <h2>Let's get to work</h2>
+            </section>
 
             <!-- Act 1: Node.js Network Services -->
             <section>
