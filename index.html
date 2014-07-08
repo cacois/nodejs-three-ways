@@ -30,7 +30,7 @@
             </section>
 
             <section>
-                <h2>Cool things that Node is</h2>
+                <h2>Cool things that Node is:</h2>
                   <p>> JavaScript</p>
                   <p>> Server-side</p>
                   <p>> Event-driven</p>
@@ -56,10 +56,10 @@
               <br>
             </section>
             <section data-background="./images/v8-logo.png">
-              <h1>Fast</h1>
+              <h1 style="color:black">Fast</h1>
               <br>
-              <h3>Node uses the V8 JavaScript engine powering Google Chrome</h3>
-              <h3>This means lightning fast JavaScript execution</h3>
+              <h3 style="color:black">Node uses the V8 JavaScript engine powering Google Chrome</h3><br>
+              <h3 style="color:black">This means lightning fast JavaScript execution</h3>
             </section>
             <section>
               <h1>Efficient</h1>
@@ -89,7 +89,7 @@
             <section>
               <h1>Callbacks</h1>
               <h3>Equivalent Syntax </h3>
-              <pre><code>
+              <pre><code data-trim>
                 fs = require('fs');
  
                 fs.readFile('f1.txt','utf8',
@@ -117,11 +117,23 @@
             <section>
                 <h2>We're going to build a scalable, real-time notification service</h2>
             </section>
-
+            <section>
+              <h2>Here's what it will look like</h2>
+              <img src="./images/notification-system.png" />
+            </section>
             <section>
                 <h2>Make sure you have Node.js installed</h2>
+                <br>
+                <p>http://www.nodejs.org</p>
+                <br>
+                <h2>And Redis</h2>
+                <br>
+                <pre><code>
+    $ wget http://download.redis.io/releases/redis-2.8.12.tar.gz
+    $ tar xzf redis-2.8.12.tar.gz && cd redis-2.8.12
+    $ make
+                </code></pre>
             </section>
-
             <section>
                 <h2>Create a project directory and code file</h2>
                 <pre><code data-trim>
