@@ -21,6 +21,7 @@
                 <h1>Node.js Three Ways</h1>
                 <h2>A Tutorial in Three Acts</h2>
                 <p>Constantine Aaron Cois and Tim Palko</p>
+                <p>Carnegie Mellon University, Software Engineering Institute</p>
             </section>
 
             <section id="slide2">
@@ -29,31 +30,99 @@
             </section>
 
             <section>
+<<<<<<< HEAD
                 <h2>Cool things that Node is</h2>
                     <ul>
                       <li> JavaScript</li>
                       <li> Server-side</li>
                       <li> Event-driven</li>
-                      <li> Really fast and efficient</li>
+                      <li> <em>Fast</em> and <em>Efficient</em></li>
                     </ul>
             </section>
 
             <section>
+              <h2>JavaScript</h2>
+              <br>
               <h3>This means you can...</h3>
               <br>
               <img src="./images/write_all_the_code_in_javascript1.jpg"></img>
             </section>
+
+            <section>
+              <h1>Advantages to JS</h1>
+              <br><ul>
+                  <li>Familiar</li>
+                  <li>Low barrier to entry</li>
+                  <li>Team Redundancy</li>
+              </ul><br>
+             <p>(Easy for frontend devs to play on server-side)</p>
+            </section>
+
             <section>
               <h2>Let's talk <em>speed</em></h2>
               <br>
               <h3>Node.js was designed for highly-concurrent network applications</h3>
               <h4>(Read: scalable web apps, among other things)</h4>
             </section>
-            <section>
-              <h2>Under the hood, Node uses Gooogle Chrome's V8 engine</h2>
-              
+
+            <section data-background="./images/v8-logo.png">
+              <h1 style="color:black">Fast</h1>
+              <br>
+              <h3 style="color:black">Node uses the V8 JavaScript engine powering Google Chrome</h3><br>
+              <h3 style="color:black">This means lightning fast JavaScript execution</h3>
             </section>
 
+            <section>
+              <h1>Efficient</h1>
+              <h2>Node.js is <em>asynchronous</em> and <em>event-driven</em></h2>
+              <br>
+              <p>This means you have to think a bit differently</p>
+            </section>
+
+            <section data-background="./images/event-loop-1.png" data-background-size="100%"/>
+            </section>
+
+            <section data-background="./images/event-loop-2.png"  data-background-size="100%"/>
+            </section>
+
+            <section data-background="./images/event-loop-3.png"  data-background-size="100%"/>
+            </section>
+
+            <section>
+              <h1>Callbacks</h1>
+              <pre><code>
+                fs = require('fs');
+ 
+                fs.readFile('f1.txt','utf8',function(err,data){
+                  if (err) {
+                    // handle error
+                  }
+                  console.log(data);
+                });
+              </code></pre>
+            </section>
+
+            <section>
+              <h1>Callbacks</h1>
+              <h3>Equivalent Syntax </h3>
+              <pre><code data-trim>
+                fs = require('fs');
+ 
+                fs.readFile('f1.txt','utf8',
+
+                  function(err,data) {
+                    if (err) {
+                      // handle error
+                    }
+                    console.log(data);
+                  }
+
+                );
+              </code></pre>
+            </section>
+            <section>
+              <h2>Let's get to work</h2>
+            </section>
 
             <!-- Act 1: Node.js Network Services -->
             <section>
@@ -64,11 +133,23 @@
             <section>
                 <h2>We're going to build a scalable, real-time notification service</h2>
             </section>
-
+            <section>
+              <h2>Here's what it will look like</h2>
+              <img src="./images/notification-system.png" />
+            </section>
             <section>
                 <h2>Make sure you have Node.js installed</h2>
+                <br>
+                <p>http://www.nodejs.org</p>
+                <br>
+                <h2>And Redis</h2>
+                <br>
+                <pre><code>
+    $ wget http://download.redis.io/releases/redis-2.8.12.tar.gz
+    $ tar xzf redis-2.8.12.tar.gz && cd redis-2.8.12
+    $ make
+                </code></pre>
             </section>
-
             <section>
                 <h2>Create a project directory and code file</h2>
                 <pre><code data-trim>
