@@ -30,13 +30,28 @@
 
             <section>
                 <h2>Cool things that Node is</h2>
-                  <p>> JavaScript</p>
-                  <p>> Server-side</p>
-                  <p>> Event-driven</p>
+                    <ul>
+                      <li> JavaScript</li>
+                      <li> Server-side</li>
+                      <li> Event-driven</li>
+                      <li> Really fast and efficient</li>
+                    </ul>
             </section>
 
             <section>
+              <h3>This means you can...</h3>
+              <br>
               <img src="./images/write_all_the_code_in_javascript1.jpg"></img>
+            </section>
+            <section>
+              <h2>Let's talk <em>speed</em></h2>
+              <br>
+              <h3>Node.js was designed for highly-concurrent network applications</h3>
+              <h4>(Read: scalable web apps, among other things)</h4>
+            </section>
+            <section>
+              <h2>Under the hood, Node uses Gooogle Chrome's V8 engine</h2>
+              
             </section>
 
 
@@ -519,6 +534,7 @@
             </section>
             <section>
                 <h2>You'll notice that meteor claims it has started MongoDB</h2>
+                <br>
                 <h4>...even if you don't have MongoDB installed...</h4>
             </section>
             <section>
@@ -527,7 +543,8 @@
             <section>
                 <h2>Just kidding!</h2>
                 <h3>It's really because meteor has installed its own</h3><h3> embedded instance of Mongodb</h3>
-                <h4>You can access it using:</h4>
+                <br>
+                <h4>You can access it anytime using:</h4>
                 <pre><code data-trim>
                 $ meteor mongo
                 </code></pre>
@@ -542,6 +559,7 @@
             </section>
             <section>
                 <h2>We don't have time to go into how fibers works, but it's pretty cool</h2>
+                <br>
                 <h4>If you want to learn more: </h4>
                 http://howtonode.org/generators-vs-fibers
                 http://meteorhacks.com/fibers-eventloop-and-meteor.html
@@ -583,7 +601,9 @@
             <section>
                 <h2>But forget about HTTP POSTS or AJAX</h2>
                 <br>
-                <h3>With meteor you don't need them. Meteor handles all data synchronization between client and server.</h3>
+                <h3>With meteor you don't need them. Meteor handles all data synchronization between client and server</h3>
+                <br>
+                <h3>Collections are accessed as reactive streams of data</h3>
             </section>
             <section>
                 <h1>Check this out</h1>
@@ -592,7 +612,7 @@
                 <pre><code data-trim>
                     Messages = new Meteor.collection('messages');
                     if (Meteor.isClient) {
-                        
+
                     }
                     if (Meteor.isServer) {
                         Meteor.startup(function () {
