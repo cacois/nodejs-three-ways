@@ -68,6 +68,7 @@
             <section data-background="./images/v8-logo.png">
               <h1 style="color:black">Fast</h1>
               <br>
+              <br>
               <h3 style="color:black">Node uses the V8 JavaScript engine powering Google Chrome</h3><br>
               <h3 style="color:black">This means lightning fast JavaScript execution</h3>
             </section>
@@ -173,6 +174,159 @@
                 <pre><code data-trim>
                   $ node worker.js
                 </code></pre>
+            </section>
+
+            <section>
+              <h2>Node Package Manager (NPM)</h2>
+              <br>
+              We will need to use some external packages for our app.
+              <br><br>
+              Specifically, we will need the Redis client package. Install it using:
+              <pre><code>
+                $ npm install redis
+              </code></pre>
+              The package will be installed in a local node_modules directory. Check it out:
+              <pre><code>
+                $ ls node_modules
+              </code></pre>
+            </section>
+
+            <section>
+                Now we can start by connecting to Redis to receive Pub/Sub messages
+                <br><br>
+                Add the following to worker.js:
+                <pre><code data-trim>
+              // import the redis module
+              var redis = require("redis");
+
+              // create a redis client object
+              var pubSubClient = redis.createClient('6379', 'localhost');
+
+              // subscribe to 'notifications' collection
+              pubsubClient.subscribe("notifications");
+
+              // define message handler
+              pubsubClient.on("message", function(channel, message) {
+                  console.log('Received a message: ' + message);
+              });
+                </code></pre>
+                ...and run it:
+                <pre><code data-trim>
+                  $ node worker.js
+                </code></pre>
+            </section>
+
+            <section>
+                Now let's test. Write to the collecion in Redis:
+                <pre><code data-trim>
+              $ redis-cli
+
+              redis-cli> publish notifications '{"identifier": 1, "message": "Huzzah!"}'
+                </code></pre>
+            </section>
+
+            <section>
+                Received a message: Huzzah!
+                <br>
+               <img src=./images/futurama-huzzah.jpg />
+            </section>
+
+            <section>
+              Now let's take a step back and set up some basic stuff for our project
+            </section>
+
+            <section>
+                <h2>Config File</h2>
+                <br>
+                My favorite config pattern Node is to create a module to store my config
+                <br><br>
+                Create a file:
+                <pre><code data-trim>
+                  $ touch config.js
+                </code></pre>
+                .. and put the following content in it:
+                <pre><code data-trim>
+                module.exports = {
+                  host: 'localhost',
+                  port: 6379
+                }
+                </code></pre>
+                The 'module.exports' value indicates what will be returned from a require(...) call to this file
+            </section>
+
+            <section>
+              Now import the file into your worker.js app by adding the following to the top of the file:
+              <pre><code data-trim>
+            var config = require("./config.js")
+              </code></pre>
+              Now we can replace the Redis client instantiation:
+              <pre><code data-trim>
+            var pubSubClient = redis.createClient('6379', 'localhost');
+              </code></pre>
+              with:
+              <pre><code data-trim>
+            var pubSubClient = redis.createClient(config.port, config.host);
+              </code></pre>
+              <br>
+              Nifty!
+            </section>
+
+            <section>
+              <h2>Package Management</h2>
+              We've already seen how to install individual packages using NPM
+              <br><br>
+              But can we automate this, and centrally manage package requirements?
+              <br><br>
+              Yes, with a package.json file:
+              <pre><code data-trim>
+            $ touch package.json
+              </code></pre>
+            </section>
+
+            <section>
+              <h2>Package.json</h2>
+              A lot of info can go into a package.json file
+              <br><br>
+              We'll only use a small bit of its functionality here. Write this:
+              <pre><code data-trim>
+            {
+              "name": "act-1-network-services",
+              "author": "MY NAME <my@email.com>",
+              "version": "1.0.0",
+              "dependencies": {
+                "redis": "*",
+                "nodemailer": "*"
+              },
+              "engine": { "node" : ">=0.10.0" }
+            }
+              </code></pre>
+              <p>This specifies:</p>
+              <ul>
+                <li>some metadata about the app</li>
+                <li>a list of package dependencies (we'll need nodemailer later)</li>
+                <li>a required Node version</li>
+              </ul>
+
+            </section>
+            <section>
+              <h2>NPM Install</h2>
+              Now that we have a package.json, we can install the app and its dependencies in one command:
+              <pre><code data-trim>
+            $ npm install
+              </code></pre>
+              <p>NPM will look for a local package.json and use it to set everything up</p>
+            </section>
+
+            <section>
+            </section>
+
+            <section>
+            </section>
+
+            <section>
+            </section>
+
+            <section>
             </section>
 
             <!-- Act 2: Part 1: Basic Express -->
