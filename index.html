@@ -24,13 +24,31 @@
                 <p>Carnegie Mellon University, Software Engineering Institute</p>
             </section>
 
+            <section>
+                <h2>Aaron === @aaroncois</h2>
+                <h3><a href="http://www.codehenge.net">www.codehenge.net</a></h3>
+                <h3><a href="http://github.com/cacois/">http://github.com/cacois/</a></h3>
+                <br><br>
+                <h2>Tim === </h2>
+            </section>
+            <section>
+                <h2>Code</h2>
+                <b>Working code</b> from this workshop can be found on github:
+                <br><br>
+                <h3><a href="https://github.com/cacois/nodejs-three-ways">https://github.com/cacois/nodejs-three-ways</a></h3>
+                <br><br>
+                <h2>Slides</h2>
+                You can also find these slides here:
+                <br><br>
+                <h3><a href="http://cacois.github.io/nodejs-three-ways/#/">http://cacois.github.io/nodejs-three-ways/#/</a></h3>
+            </section>
+
             <section id="slide2">
                 <h1>Node.js!</h1>
                 <p>What's the big deal?</p>
             </section>
 
             <section>
-<<<<<<< HEAD
                 <h2>Cool things that Node is</h2>
                     <ul>
                       <li> JavaScript</li>
@@ -65,7 +83,7 @@
               <h4>(Read: scalable web apps, among other things)</h4>
             </section>
 
-            <section data-background="./images/v8-logo.png">
+            <section data-background="./images/v8-logo.png"  data-background-size="80%">
               <h1 style="color:black">Fast</h1>
               <br>
               <br>
@@ -80,13 +98,13 @@
               <p>This means you have to think a bit differently</p>
             </section>
 
-            <section data-background="./images/event-loop-1.png" data-background-size="100%"/>
+            <section data-background="./images/event-loop-1.png" data-background-size="70%"/>
             </section>
 
-            <section data-background="./images/event-loop-2.png"  data-background-size="100%"/>
+            <section data-background="./images/event-loop-2.png"  data-background-size="70%"/>
             </section>
 
-            <section data-background="./images/event-loop-3.png"  data-background-size="100%"/>
+            <section data-background="./images/event-loop-3.png"  data-background-size="70%"/>
             </section>
 
             <section>
@@ -318,15 +336,186 @@
             </section>
 
             <section>
+                <h2>Now back to the action...</h2>
+                <br>
+                <h3>worker.js should look like this:</h2>
+                <pre><code data-trim>
+              // import the redis module
+              var redis = require("redis");
+
+              // read in the config file as a JavaScript object
+              var config = require("./config.js");
+
+              // create a redis client object
+              var pubSubClient = redis.createClient('6379', 'localhost');
+
+              // subscribe to 'notifications' collection
+              pubsubClient.subscribe("notifications");
+
+              // define message handler
+              pubsubClient.on("message", function(channel, message) {
+                  console.log('Received a message: ' + message);
+              });
+                </code></pre>
             </section>
 
             <section>
+                Let's make that message handler function a bit more manageable
+                <br><br>
+                Move the closure out to a separtely defined function:
+                <pre><code data-trim>
+            // define message handler
+            pubsubClient.on("message", handleMessage);
+
+            function handleMessage(channel, message) {
+                console.log('Received a message: ' + message);
+            }
+                </code></pre>
             </section>
 
             <section>
+                Now let's make it do something more interesting.
+                <br><br>
+                We want multiple, fault-tolerant workers to handle notifications. This will make our system scalable.
+                <br><br>
+                We can accomplish this by making all workers race to handle any notification dispatched - which means <em>locks</em>
+                <pre><code data-trim>
+            // define message handler
+            pubsubClient.on("message", handleMessage);
+
+            function handleMessage(channel, message) {
+                console.log('Received a message: ' + message);
+
+                var payload = JSON.parse(message);
+
+                acquireLock(payload, 1, lockCallback);
+            }
+                </code></pre>
+
+            Notice that we've identified two functions we need to write: <b>acquireLock</b> and the callback <b>lockCallback</b>
             </section>
 
             <section>
+                <h2>acquireLock</h2>
+                We can use Redis for locks, too. The first worker to write a lock for a given notification wins!
+                <pre><code data-trim>
+    function acquireLock(payload, attempt, callback) {
+        // create a lock id string
+        var lockIdentifier = "lock." + payload.identifier;
+
+        console.log("Trying to obtain lock: %s", lockIdentifier);
+
+        client.setnx(lockIdentifier, "Worker Name", function(error, success) {
+            if (error) {
+                logger.error("Error acquiring lock for: %s", lockIdentifier);
+                return callback(error, dataForCallback(false));
+            }
+
+            var data = {
+                "acquired" : success,
+                "lockIdentifier" : lockIdentifier,
+                "payload" : payload
+            };
+            return callback(data);
+        });
+    }
+                </code></pre>
+                Give your worker a better name than "Worker Name"!
+                <br><br>(Protip: If you want to pass a worker name/id in from the command line, check out the <b>process.argv</b> object)
+            </section>
+
+            <section>
+                <h2>lockCallback</h2>
+                Now we need a callback after the worker attempts to acquire a lock.
+                <br><br><p>This function needs to handle success or failure by a given worker.</p>
+                <pre><code>
+    function lockCallback(data) {
+        if(data.acquired == true) {
+            console.log("I got the lock!");
+
+            // send notification!
+            // TODO: actually notify
+            console.log('I win! Sending notification: %s',
+                         JSON.stringify(data));
+        }
+        else console.log("No lock for me :(");
+    }
+                </code></pre>
+            </section>
+
+            <section>
+                We've written a lot of code - let's test
+                <br><br>
+                <pre><code>
+$ node worker.js
+$ redis-cli
+
+redis-cli> publish notifications '{"identifier": 2, "message": "in a bottle"}'
+
+    // this next command will show you the keys currently in
+    // redis. You should see "lock.2"
+
+redis-cli> keys *
+
+    // this command will show the value for the key "lock.2". This
+    // will be the name of the worker who won the lock
+
+redis-cli> get "lock.2"
+                </code></pre>
+
+            </section>
+
+            <section>
+                <h2>Let's scale</h2>
+                <br>
+                Fire up multiple workers (be sure to give them different names), and watch them race!
+            </section>
+
+            <section>
+                <h2>Final Step</h2>
+                Call a function to send a notification...
+                <pre><code>
+    function lockCallback(data) {
+        if(data.acquired == true) {
+            console.log("I got the lock!");
+
+            // send notification!
+            sendMessage(data);
+        }
+        else console.log("No lock for me :(");
+    }
+                </code></pre>
+            </section>
+            <section>
+                <h2>Final Step</h2>
+                ...and send some SMTP
+                <pre><code>
+function sendMessage(payload) {
+    console.log("Sending email notification...");
+    var smtpTransport = mailer.createTransport("SMTP",{
+        service: "Gmail",
+        auth: {
+            user: "&ltGoogle username>",
+            pass: "&ltyour Google application-specific password>"
+        }
+    });
+
+    var mailOptions = {
+        from: "&ltemail>", // sender address
+        to: "&ltemail>", // list of receivers
+        subject: "Notification from Node.js", // Subject line
+        text: "You are hereby notified!", // plaintext body
+        html: "<b>You are hereby notified!</b>" // html body
+    };
+
+    smtpTransport.sendMail(mailOptions, function(error, response){
+        if(error) console.log("Error sending mail: " + error);
+        else console.log("Message sent: " + response.message);
+
+        smtpTransport.close(); // shut down the connection pool, no more messages
+    });
+}
+                </code></pre>
             </section>
 
             <!-- Act 2: Part 1: Basic Express -->
