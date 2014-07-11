@@ -237,7 +237,11 @@
                   console.log('Received a message: ' + message);
               });
                 </code></pre>
-                ...and run it:
+                ...start the redis server in one window:
+                <pre><code>
+                  $ redis-server
+                </code></pre>
+                ...and run it in another:
                 <pre><code >
                   $ node worker.js
                 </code></pre>
@@ -318,7 +322,7 @@
               <pre><code >
             {
               "name": "act-1-network-services",
-              "author": "MY NAME <my@email.com>",
+              "author": "MY NAME &lt;my@email.com&gt;",
               "version": "1.0.0",
               "dependencies": {
                 "redis": "*",
@@ -356,13 +360,14 @@
               var config = require("./config.js");
 
               // create a redis client object
-              var pubSubClient = redis.createClient('6379', 'localhost');
+              var pubSubClient = redis.createClient(config.port, config.host);
+              var client = redis.createClient(config.port, config.host);
 
               // subscribe to 'notifications' collection
-              pubsubClient.subscribe("notifications");
+              pubSubClient.subscribe("notifications");
 
               // define message handler
-              pubsubClient.on("message", function(channel, message) {
+              pubSubClient.on("message", function(channel, message) {
                   console.log('Received a message: ' + message);
               });
                 </code></pre>
@@ -390,7 +395,7 @@
                 We can accomplish this by making all workers race to handle any notification dispatched - which means <em>locks</em>
                 <pre><code >
             // define message handler
-            pubsubClient.on("message", handleMessage);
+            pubSubClient.on("message", handleMessage);
 
             function handleMessage(channel, message) {
                 console.log('Received a message: ' + message);
@@ -429,7 +434,13 @@
         });
     }
                 </code></pre>
+
+            </section>
+
+            <section>
                 Give your worker a better name than "Worker Name"!
+                <br><br>
+                That way, if your worker tries to acquire a lock on a central server, it will have a unique name.
                 <br><br>(Protip: If you want to pass a worker name/id in from the command line, check out the <b>process.argv</b> object)
             </section>
 
@@ -510,11 +521,11 @@ function sendMessage(payload) {
     });
 
     var mailOptions = {
-        from: "&ltemail>", // sender address
-        to: "&ltemail>", // list of receivers
+        from: "&ltemail&gt;", // sender address
+        to: "&ltemail&gt;", // list of receivers
         subject: "Notification from Node.js", // Subject line
         text: "You are hereby notified!", // plaintext body
-        html: "<b>You are hereby notified!</b>" // html body
+        html: "&lt;b&gt;You are hereby notified!&lt;/b&gt;" // html body
     };
 
     smtpTransport.sendMail(mailOptions, function(error, response){
