@@ -230,10 +230,10 @@
               var pubSubClient = redis.createClient('6379', 'localhost');
 
               // subscribe to 'notifications' collection
-              pubsubClient.subscribe("notifications");
+              pubSubClient.subscribe("notifications");
 
               // define message handler
-              pubsubClient.on("message", function(channel, message) {
+              pubSubClient.on("message", function(channel, message) {
                   console.log('Received a message: ' + message);
               });
                 </code></pre>
@@ -379,7 +379,7 @@
                 Move the closure out to a separtely defined function:
                 <pre><code >
             // define message handler
-            pubsubClient.on("message", handleMessage);
+            pubSubClient.on("message", handleMessage);
 
             function handleMessage(channel, message) {
                 console.log('Received a message: ' + message);
