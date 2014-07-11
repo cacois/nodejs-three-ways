@@ -235,13 +235,15 @@
               // define message handler
               pubSubClient.on("message", function(channel, message) {
                   console.log('Received a message: ' + message);
-              });
+              });            
                 </code></pre>
-                ...start the redis server in one window:
+              </section>
+              <section>
+                Start the redis server in one window...
                 <pre><code>
                   $ redis-server
                 </code></pre>
-                ...and run it in another:
+                ...and run your app in another...
                 <pre><code >
                   $ node worker.js
                 </code></pre>
