@@ -4,6 +4,7 @@
     <title>Reveal.js 3 Slide Demo</title>
     <link rel="stylesheet" href="css/reveal.min.css">
     <link rel="stylesheet" href="css/theme/default.css" id="theme">
+
     <!--Add support for earlier versions of Internet Explorer -->
     <!--[if lt IE 9]>
     <script src="lib/js/html5shiv.js"></script>
@@ -27,7 +28,7 @@
             <section>
                 <h2>Aaron === @aaroncois</h2>
                 <h3><a href="http://www.codehenge.net">www.codehenge.net</a></h3>
-                <h3><a href="http://github.com/cacois/">http://github.com/cacois/</a></h3>
+                <h3><a href="http://github.com/cacois">http://github.com/cacois</a></h3>
                 <br><br>
                 <h2>Tim === </h2>
             </section>
@@ -124,7 +125,7 @@
             <section>
               <h1>Callbacks</h1>
               <h3>Equivalent Syntax </h3>
-              <pre><code data-trim>
+              <pre><code >
                 fs = require('fs');
  
                 fs.readFile('f1.txt','utf8',
@@ -139,6 +140,7 @@
                 );
               </code></pre>
             </section>
+
             <section>
               <h2>Let's get to work</h2>
             </section>
@@ -152,10 +154,12 @@
             <section>
                 <h2>We're going to build a scalable, real-time notification service</h2>
             </section>
+
             <section>
               <h2>Here's what it will look like</h2>
-              <img src="./images/notification-system.png" />
+              <img class="stretch" src="./images/notification-system.png" />
             </section>
+
             <section>
                 <h2>Make sure you have Node.js installed</h2>
                 <br>
@@ -169,9 +173,10 @@
     $ make
                 </code></pre>
             </section>
+
             <section>
                 <h2>Create a project directory and code file</h2>
-                <pre><code data-trim>
+                <pre><code>
                   $ mkdir node-act1
                   $ cd node-act1
                   $ touch worker.js
@@ -184,12 +189,12 @@
                 <h2>A first test</h2>
 
                 Put the following in worker.js:
-                <pre><code data-trim>
+                <pre><code>
                   console.log("Hello OSCON!");
                 </code></pre>
 
                 ...and run it:
-                <pre><code data-trim>
+                <pre><code >
                   $ node worker.js
                 </code></pre>
             </section>
@@ -213,7 +218,7 @@
                 Now we can start by connecting to Redis to receive Pub/Sub messages
                 <br><br>
                 Add the following to worker.js:
-                <pre><code data-trim>
+                <pre><code class="javascript">
               // import the redis module
               var redis = require("redis");
 
@@ -229,14 +234,14 @@
               });
                 </code></pre>
                 ...and run it:
-                <pre><code data-trim>
+                <pre><code >
                   $ node worker.js
                 </code></pre>
             </section>
 
             <section>
                 Now let's test. Write to the collecion in Redis:
-                <pre><code data-trim>
+                <pre><code >
               $ redis-cli
 
               redis-cli> publish notifications '{"identifier": 1, "message": "Huzzah!"}'
@@ -259,11 +264,11 @@
                 My favorite config pattern Node is to create a module to store my config
                 <br><br>
                 Create a file:
-                <pre><code data-trim>
+                <pre><code >
                   $ touch config.js
                 </code></pre>
                 .. and put the following content in it:
-                <pre><code data-trim>
+                <pre><code >
                 module.exports = {
                   host: 'localhost',
                   port: 6379
@@ -274,15 +279,15 @@
 
             <section>
               Now import the file into your worker.js app by adding the following to the top of the file:
-              <pre><code data-trim>
+              <pre><code >
             var config = require("./config.js")
               </code></pre>
               Now we can replace the Redis client instantiation:
-              <pre><code data-trim>
+              <pre><code >
             var pubSubClient = redis.createClient('6379', 'localhost');
               </code></pre>
               with:
-              <pre><code data-trim>
+              <pre><code >
             var pubSubClient = redis.createClient(config.port, config.host);
               </code></pre>
               <br>
@@ -296,7 +301,7 @@
               But can we automate this, and centrally manage package requirements?
               <br><br>
               Yes, with a package.json file:
-              <pre><code data-trim>
+              <pre><code >
             $ touch package.json
               </code></pre>
             </section>
@@ -306,7 +311,7 @@
               A lot of info can go into a package.json file
               <br><br>
               We'll only use a small bit of its functionality here. Write this:
-              <pre><code data-trim>
+              <pre><code >
             {
               "name": "act-1-network-services",
               "author": "MY NAME <my@email.com>",
@@ -329,7 +334,7 @@
             <section>
               <h2>NPM Install</h2>
               Now that we have a package.json, we can install the app and its dependencies in one command:
-              <pre><code data-trim>
+              <pre><code >
             $ npm install
               </code></pre>
               <p>NPM will look for a local package.json and use it to set everything up</p>
@@ -339,7 +344,7 @@
                 <h2>Now back to the action...</h2>
                 <br>
                 <h3>worker.js should look like this:</h2>
-                <pre><code data-trim>
+                <pre><code >
               // import the redis module
               var redis = require("redis");
 
@@ -363,7 +368,7 @@
                 Let's make that message handler function a bit more manageable
                 <br><br>
                 Move the closure out to a separtely defined function:
-                <pre><code data-trim>
+                <pre><code >
             // define message handler
             pubsubClient.on("message", handleMessage);
 
@@ -379,7 +384,7 @@
                 We want multiple, fault-tolerant workers to handle notifications. This will make our system scalable.
                 <br><br>
                 We can accomplish this by making all workers race to handle any notification dispatched - which means <em>locks</em>
-                <pre><code data-trim>
+                <pre><code >
             // define message handler
             pubsubClient.on("message", handleMessage);
 
@@ -398,7 +403,7 @@
             <section>
                 <h2>acquireLock</h2>
                 We can use Redis for locks, too. The first worker to write a lock for a given notification wins!
-                <pre><code data-trim>
+                <pre><code >
     function acquireLock(payload, attempt, callback) {
         // create a lock id string
         var lockIdentifier = "lock." + payload.identifier;
@@ -538,7 +543,7 @@ function sendMessage(payload) {
 
             <section>
                 <h2>Step 1: Create package.json:</h2>
-                <pre><code data-trim>
+                <pre><code >
                     {
                       "name": "Express Basic Tutorial",
                       "description": "I'm learning nodejs express!",
@@ -551,18 +556,18 @@ function sendMessage(payload) {
                 </code></pre>
 
                 <h3>Hint</h3> To find the latest available version of a module
-                <pre><code data-trim>
+                <pre><code >
                     $ npm info express version
                 </code></pre>
                 Or you can simply say
-                <pre><code data-trim>
+                <pre><code >
                     "express": "*"
                 </code></pre>
             </section>
 
             <section>
                 <h2>Step 2: Create README.md</h2>
-                <pre><code data-trim>
+                <pre><code >
                     # Meet My App
                     App, audience. Audience, app.
                 </code></pre>
@@ -571,7 +576,7 @@ function sendMessage(payload) {
 
             <section>
                 <h2>Step 3: <strike>Profit</strike> Create app.js</h2>
-                <pre><code data-trim>
+                <pre><code >
                     var express = require('express');
                     var app = express();
 
@@ -587,14 +592,14 @@ function sendMessage(payload) {
 
             <section>
                 <h2>Step 4: Install your dependencies</h2>
-                <pre><code data-trim>
+                <pre><code >
                     $ npm install
                 </code></pre>
             </section>
 
             <section>
                 <h2>Step 5: Run it</h2>
-                <pre><code data-trim>
+                <pre><code >
                     $ node app.js
                 </code></pre>
                 <h4>and visit</h4>
@@ -620,7 +625,7 @@ function sendMessage(payload) {
 
             <section>
                 <h2>Express Generator</h2>
-                <pre><code data-trim>
+                <pre><code >
                 $ npm install -g express-generator
                 $ express -e ejs myapp
                 $ npm install
@@ -650,7 +655,7 @@ function sendMessage(payload) {
             <section>
                 <h2>Write a view</h2>
                 <h3>at /views/visits.ejs:</h3>
-                <pre><code data-trim>
+                <pre><code >
     &lt;!DOCTYPE html&gt;
     &lt;html&gt;
       &lt;head&gt;
@@ -668,7 +673,7 @@ function sendMessage(payload) {
             <section>
                 <h2>Write a route</h2>
                 <h3>at /routes/visits.js:</h3>
-                <pre><code data-trim>
+                <pre><code >
             var express = require('express');
             var router = express.Router();
 
@@ -684,7 +689,7 @@ function sendMessage(payload) {
             <section>
                 <h2>Hook up requests with the route</h2>
                 <h3>in app.js:</h3>
-                <pre><code data-trim>
+                <pre><code >
             ...
             var routes = require('./routes/index');
             var users = require('./routes/users');
@@ -708,7 +713,7 @@ function sendMessage(payload) {
 
             <section>
                 <h2>First, add a bit to package.json for the mongo dependency</h2>
-                <pre><code data-trim>
+                <pre><code >
                    ...
                     "debug": "~0.7.4",
                     "ejs": "~0.8.5",
@@ -717,14 +722,14 @@ function sendMessage(payload) {
                 }
                 </code></pre>
                 <h3>and install</h3>
-                <pre><code data-trim>
+                <pre><code >
                     $ npm install
                 </code></pre>
             </section>
 
             <section>
                 <h2>a model, visit.js, in /models</h2>
-                <pre><code data-trim>
+                <pre><code >
                 var mongoose = require('mongoose')
                    ,Schema = mongoose.Schema
                    ,ObjectId = Schema.ObjectId;
@@ -741,7 +746,7 @@ function sendMessage(payload) {
 
             <section>
                 <h2>using that model to write data to mongo in app.js</h2>
-                <pre><code data-trim>
+                <pre><code >
             var mongoose = require('mongoose');
             mongoose.connect('mongodb://localhost/myapp');
 
@@ -758,7 +763,7 @@ function sendMessage(payload) {
             <section>
                 <h2>careful</h2>
                 <h3>Now that our app will try to talk to a database, that database will need to be running</h3>
-                <pre><code data-trim>
+                <pre><code >
                     $ mongod --config /usr/local/etc/mongod.conf
                 </code></pre>
             </section>
@@ -770,7 +775,7 @@ function sendMessage(payload) {
 
             <section>
                 <h2>Modify the route to fetch the data</h2>
-                <pre><code data-trim>
+                <pre><code >
             ..
             var Visit = require("../models/visit.js");
 
@@ -789,7 +794,7 @@ function sendMessage(payload) {
 
             <section>
                 <h2>And modify the view to render it</h2>
-                <pre><code data-trim>
+                <pre><code >
             ..
             &lt;h1&gt;Hi, {% my_name %}&lt;/h1&gt;
             &lt;% for(var v in visits){ %&gt;
@@ -829,7 +834,7 @@ function sendMessage(payload) {
             <section>
                 <h2>Let's try it</h2>
                 <h3>First, set up your dependency</h3>
-                <pre><code data-trim>
+                <pre><code >
                     ...
                         "debug": "~0.7.4",
                         "ejs": "~0.8.5",
@@ -839,14 +844,14 @@ function sendMessage(payload) {
                     }
                 </code></pre>
                 <h3>And install</h3>
-                <pre><code data-trim>
+                <pre><code >
                     $ npm install
                 </code></pre>
             </section>
 
             <section>
                 <h3>Socket.IO runs as its own server, alongside our Express app</h3>
-                <pre><code data-trim>
+                <pre><code >
                     var server = require('http').createServer(app);
                     var io = require('socket.io').listen(server);
                     server.listen(3001);
@@ -856,7 +861,7 @@ function sendMessage(payload) {
 
             <section>
                 <h3>We define "endpoints", or "namespaces" for the server, much like routes.</h3>
-                <pre><code data-trim>
+                <pre><code >
             // -- '/chat' is the namespace identifier
             // -- the callback function is the middleware we define
             // -- for the namespace identifier
@@ -874,7 +879,7 @@ function sendMessage(payload) {
 
             <section>
                 <h3>This is just an HTML form, which will help us interact with the server from the client</h3>
-                <pre><code data-trim>
+                <pre><code >
         &lt;div id="chatlog" style="height: 200px;overflow-y:scroll;"&gt;&lt;/div&gt;
         &lt;textarea id="chatwindow" cols="30" rows="10"&gt;&lt;/textarea&gt;
         &lt;input id="send_chat" type="submit" value="Send" /&gt;
@@ -884,7 +889,7 @@ function sendMessage(payload) {
 
             <section>
                 <h3>Here is our client-side javascript, which connects to, reacts to, and sends messages to the server</h3>
-                <pre><code data-trim>
+                <pre><code >
         &lt;script src="http://localhost:3001/socket.io/socket.io.js"&gt;&lt;/script&gt;
         &lt;script src="//code.jquery.com/jquery-1.10.2.min.js"&gt;&lt;/script&gt;
 
@@ -939,7 +944,7 @@ function sendMessage(payload) {
             <section>
                 <h2>Let's check it out</h2>
                 <h3>Install Meteor, and create a new dir</h3>
-                <pre><code data-trim>
+                <pre><code >
                 $ npm install meteor -g
                 $ mkdir node-act3
                 $ cd node-act3
@@ -947,7 +952,7 @@ function sendMessage(payload) {
             </section>
             <section>
                 <h2>Meteor has a generator, too!</h2>
-                <pre><code data-trim>
+                <pre><code >
                 $ meteor create mapit
                 $ meteor
                 </code></pre>
@@ -969,7 +974,7 @@ function sendMessage(payload) {
                 <h3>It's really because meteor has installed its own</h3><h3> embedded instance of Mongodb</h3>
                 <br>
                 <h4>You can access it anytime using:</h4>
-                <pre><code data-trim>
+                <pre><code >
                 $ meteor mongo
                 </code></pre>
             </section>
@@ -1003,7 +1008,7 @@ function sendMessage(payload) {
             </section>
             <section>
                 <h2>You'll see two sections in the mapit.js file:</h2>
-                <pre><code data-trim>
+                <pre><code >
                     if (Meteor.isClient) {
                         ...
                     }
@@ -1033,7 +1038,7 @@ function sendMessage(payload) {
                 <h1>Check this out</h1>
                 <br>
                 <h2>mapit.js:</h2>
-                <pre><code data-trim>
+                <pre><code >
                     Messages = new Meteor.collection('messages');
                     if (Meteor.isClient) {
 
@@ -1071,7 +1076,15 @@ function sendMessage(payload) {
     <script>
         // Required, even if empty.
         Reveal.initialize({
-          transition: 'default'
+          transition: 'default',
+          // Display the page number of the current slide
+          slideNumber: true,
+          dependencies: [
+            // Syntax highlight for <code> elements
+            { src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
+          ]
+
+
         });
     </script>
 </body>
