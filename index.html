@@ -290,7 +290,7 @@
             <section>
               Now import the file into your worker.js app by adding the following to the top of the file:
               <pre><code >
-            var config = require("./config.js")
+            var config = require("./config.js");
               </code></pre>
               Now we can replace the Redis client instantiation:
               <pre><code >
@@ -517,12 +517,10 @@ function sendMessage(payload) {
     console.log("Sending email notification...");
     var smtpTransport = mailer.createTransport("SMTP",{
         service: "Gmail",
-        auth: {
-            user: "&ltGoogle username>",
-            pass: "&ltyour Google application-specific password>"
+        auth: { user: "&ltGoogle username>",
+                pass: "&ltyour Google application-specific password>"
         }
     });
-
     var mailOptions = {
         from: "&ltemail&gt;", // sender address
         to: "&ltemail&gt;", // list of receivers
@@ -530,11 +528,9 @@ function sendMessage(payload) {
         text: "You are hereby notified!", // plaintext body
         html: "&lt;b&gt;You are hereby notified!&lt;/b&gt;" // html body
     };
-
     smtpTransport.sendMail(mailOptions, function(error, response){
         if(error) console.log("Error sending mail: " + error);
         else console.log("Message sent: " + response.message);
-
         smtpTransport.close(); // shut down the connection pool, no more messages
     });
 }
