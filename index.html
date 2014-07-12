@@ -63,9 +63,10 @@ function(err,data) {
             </section>
 
             <section>
-                <h2>Aaron === @aaroncois</h2>
-                <h3><a href="http://www.codehenge.net">www.codehenge.net</a></h3>
-                <h3><a href="http://github.com/cacois">http://github.com/cacois</a></h3>
+                <h2>Aaron = </h2>
+                <h3>{Twitter: <a href="https://twitter.com/aaroncois">@aaroncois</a>,</h3>
+                <h3>Blog: <a href="http://www.codehenge.net">www.codehenge.net</a>,</h3>
+                <h3>Github: <a href="http://github.com/cacois">http://github.com/cacois</a>}</h3>
                 <br><br>
                 <h2>Tim === Tim</h2>
             </section>
@@ -272,7 +273,7 @@ function(err,data) {
               // define message handler
               pubSubClient.on("message", function(channel, message) {
                   console.log('Received a message: ' + message);
-              });            
+              });
                 </code></pre>
               </section>
               <section>
@@ -547,13 +548,13 @@ redis-cli> get "lock.2"
                 </code></pre>
             </section>
             <section>
-                <h2>Final Step ..send some SMTP</h2>                
+                <h2>Final Step ..send some SMTP</h2>
                 <pre><code>
 function sendMessage(payload) {
     console.log("Sending email notification...");
     var smtpTransport = mailer.createTransport("SMTP",{
         service: "Gmail",
-        auth: { 
+        auth: {
           user: "&ltGoogle username>",
           pass: "&ltyour Google application-specific password>"
         }
