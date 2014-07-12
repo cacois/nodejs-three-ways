@@ -1,7 +1,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Reveal.js 3 Slide Demo</title>
+    <title>Node.js Three Ways</title>
     <link rel="stylesheet" href="css/reveal.min.css">
     <link rel="stylesheet" href="css/theme/default.css" id="theme">
     <!--Add support for earlier versions of Internet Explorer -->
@@ -17,6 +17,43 @@
         <div class="slides">
 
             <!-- Introduction -->
+            <section>
+                <h2>Example two-column slide</h2>
+                <div class="column" style="float: left;margin: 0;width: 50%;">
+                    Content in here
+                    <pre><code data-trim>
+fs = require('fs');
+ 
+fs.readFile('f1.txt','utf8',
+
+function(err,data) {
+    if (err) {
+    // handle error
+       }
+       console.log(data);
+}
+
+);
+                    </code></pre>
+                </div>
+                <div class="column" style="float: left;margin: 0;width: 50%;">
+                    More content
+                    <pre><code data-trim>
+fs = require('fs');
+ 
+fs.readFile('f1.txt','utf8',
+
+function(err,data) {
+    if (err) {
+    // handle error
+       }
+       console.log(data);
+}
+
+);
+                    </code></pre>
+                </div>
+            </section>
             <section>
                 <h1>Node.js Three Ways</h1>
                 <h2>A Tutorial in Three Acts</h2>
