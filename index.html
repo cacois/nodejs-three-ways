@@ -44,7 +44,7 @@
                 <h2>Example two-column slide</h2>
                 <div class="column" style="float: left;margin: 0;width: 50%;">
                     Content in here
-                    <pre><code data-trim>
+                    <pre><code class="javascript">
 fs = require('fs');
  
 fs.readFile('f1.txt','utf8',
@@ -61,7 +61,7 @@ function(err,data) {
                 </div>
                 <div class="column" style="float: left;margin: 0;width: 50%;">
                     More content
-                    <pre><code data-trim>
+                    <pre><code class="javascript">
 fs = require('fs');
  
 fs.readFile('f1.txt','utf8',
@@ -83,7 +83,7 @@ function(err,data) {
                 <br>
                 <div class="column" style="float: left;margin: 0;width: 29%;">
                     <h4>OSX</h4>
-                    <pre><code>
+                    <pre><code class="javascript">
 (if you have homebrew)
 
 $ brew install node
@@ -92,9 +92,9 @@ $ brew install mongo
                     </code></pre>
 
                 </div>
-                <div class="column" style="float: left;margin: 0;width: 39%;">
+                <div class="column" style="float: left;margin: 0;width: 40%;">
                     <h4>Ubuntu/Debian</h4>
-                    <pre><code>
+                    <pre><code class="javascript">
 (use sudo if necessary)
 
 $ apt-get install nodejs
@@ -106,8 +106,8 @@ $ apt-get install mongodb
                 </div>
                 <div class="column" style="float: left;margin: 0;width: 31%;">
                     <h4>Windows</h4>
-                    <pre><code>
-(if you have chocolatey)
+                    <pre><code class="javascript">
+(using chocolatey)
 
 > cinst nodejs.install
 > cinst redis
@@ -121,8 +121,9 @@ $ apt-get install mongodb
 <a href="http://redis.io/download">http://redis.io/download</a>
 <br>
 <br><p>And clone the workshop repo:</p>
-<pre><code>
+<pre><code class="javascript">
         $ git clone https://github.com/cacois/nodejs-three-ways
+
 </code></pre>
             </section>
 
@@ -226,7 +227,7 @@ $ apt-get install mongodb
 
             <section>
               <h1>Callbacks</h1>
-              <pre><code>
+              <pre><code class="javascript">
                 fs = require('fs');
  
                 fs.readFile('f1.txt','utf8',function(err,data){
@@ -241,7 +242,7 @@ $ apt-get install mongodb
             <section>
               <h1>Callbacks</h1>
               <h3>Equivalent Syntax </h3>
-              <pre><code >
+              <pre><code class="javascript">
                 fs = require('fs');
  
                 fs.readFile('f1.txt','utf8',
@@ -278,7 +279,7 @@ $ apt-get install mongodb
 
             <section>
                 <h2>Create a project directory and file</h2>
-                <pre><code>
+                <pre><code class="bash">
                   $ mkdir node-act1
                   $ cd node-act1
                   $ touch worker.js
@@ -295,12 +296,12 @@ $ apt-get install mongodb
                 <h2>A first test</h2>
 
                 Put the following in worker.js:
-                <pre><code>
+                <pre><code class="javascript">
                   console.log("Hello OSCON!");
                 </code></pre>
 
                 ...and run it:
-                <pre><code >
+                <pre><code class="bash">
                   $ node worker.js
                 </code></pre>
             </section>
@@ -311,11 +312,11 @@ $ apt-get install mongodb
               We will need to use some external packages for our app.
               <br><br>
               Specifically, we will need the Redis client package. Install it using:
-              <pre><code>
+              <pre><code class="bash">
                 $ npm install redis
               </code></pre>
               The package will be installed in a local node_modules directory. Check it out:
-              <pre><code>
+              <pre><code class="bash">
                 $ ls node_modules
               </code></pre>
             </section>
@@ -342,18 +343,18 @@ $ apt-get install mongodb
               </section>
               <section>
                 Start the redis server in one window...
-                <pre><code>
+                <pre><code class="bash">
                   $ redis-server
                 </code></pre>
                 ...and run your app in another...
-                <pre><code >
+                <pre><code class="bash">
                   $ node worker.js
                 </code></pre>
             </section>
 
             <section>
                 Now let's test. Write to the collecion in Redis:
-                <pre><code >
+                <pre><code class="bash">
   $ redis-cli
 
   redis-cli> publish notifications '{"identifier": 1, "message": "Huzzah!"}'
@@ -383,11 +384,11 @@ $ apt-get install mongodb
                 I like to use a module for config data
                 <br><br>
                 Create a file named config.js:
-                <pre><code >
+                <pre><code class="bash">
                   $ touch config.js
                 </code></pre>
                 .. and put the following content in it:
-                <pre><code >
+                <pre><code class="bash">
                 module.exports = {
                   host: 'localhost',
                   port: 6379
@@ -398,15 +399,15 @@ $ apt-get install mongodb
 
             <section>
               Now import the file into your worker.js app by adding the following to the top of the file:
-              <pre><code >
+              <pre><code class="javascript">
             var config = require("./config.js");
               </code></pre>
               Now we can replace the Redis client instantiation:
-              <pre><code >
+              <pre><code class="javascript">
             var pubSubClient = redis.createClient('6379', 'localhost');
               </code></pre>
               with:
-              <pre><code >
+              <pre><code class="javascript">
             var pubSubClient = redis.createClient(config.port, config.host);
               </code></pre>
               <br>
@@ -420,7 +421,7 @@ $ apt-get install mongodb
               But can we automate this, and centrally manage package requirements?
               <br><br>
               Yes, with a package.json file:
-              <pre><code >
+              <pre><code class="bash">
             $ touch package.json
               </code></pre>
             </section>
@@ -430,7 +431,7 @@ $ apt-get install mongodb
               A lot of info can go into a package.json file
               <br><br>
               We'll only use a small bit of its functionality here. Write this:
-              <pre><code >
+              <pre><code class="json">
             {
               "name": "act-1-network-services",
               "author": "MY NAME &lt;my@email.com&gt;",
@@ -453,7 +454,7 @@ $ apt-get install mongodb
             <section>
               <h2>NPM Install</h2>
               Now that we have a package.json, we can install the app and its dependencies in one command:
-              <pre><code >
+              <pre><code class="bash">
             $ npm install
               </code></pre>
               <p>NPM will look for a local package.json and use it to set everything up</p>
@@ -467,26 +468,24 @@ $ apt-get install mongodb
             </section>
 
             <section>
-                <h2>Now back to the action...</h2>
-                <br>
                 <h3>worker.js should look like this:</h2>
-                <pre><code >
-              // import the redis module
-              var redis = require("redis");
+                <pre><code class="javascript" style="font-size: 13pt">
+      // import the redis module
+      var redis = require("redis");
 
-              // read in the config file as a JavaScript object
-              var config = require("./config.js");
+      // read in the config file as a JavaScript object
+      var config = require("./config.js");
 
-              // create a redis client object
-              var pubSubClient = redis.createClient(config.port, config.host);
+      // create a redis client object
+      var pubSubClient = redis.createClient(config.port, config.host);
 
-              // subscribe to 'notifications' collection
-              pubSubClient.subscribe("notifications");
+      // subscribe to 'notifications' collection
+      pubSubClient.subscribe("notifications");
 
-              // define message handler
-              pubSubClient.on("message", function(channel, message) {
-                  console.log('Received a message: ' + message);
-              });
+      // define message handler
+      pubSubClient.on("message", function(channel, message) {
+          console.log('Received a message: ' + message);
+      });
                 </code></pre>
             </section>
 
@@ -494,7 +493,7 @@ $ apt-get install mongodb
                 Let's make that message handler function a bit more manageable
                 <br><br>
                 Move the closure out to a separtely defined function:
-                <pre><code >
+                <pre><code class="javascript">
             // define message handler
             pubSubClient.on("message", handleMessage);
 
@@ -513,7 +512,7 @@ $ apt-get install mongodb
             </section>
             <section>
                 <h3>worker.js</h3>
-                <pre><code >
+                <pre><code class="javascript">
             ...
             // define message handler
             pubSubClient.on("message", handleMessage);
@@ -536,7 +535,7 @@ $ apt-get install mongodb
             </section>
             <section>
                 <h3>worker.js</h3>
-                <pre><code >
+                <pre><code class="javascript">
 ...
 var client = redis.createClient(config.port, config.host);
 ...
@@ -577,7 +576,7 @@ function acquireLock(payload, callback) {
                 Now the callback after a worker tried to acquire a lock.
                 <br><br>
                 <h3>worker.js</h3>
-                <pre><code>
+                <pre><code class="javascript">
 ...
 function lockCallback(data) {
     if(data.acquired == true) {
@@ -596,7 +595,7 @@ function lockCallback(data) {
             <section>
                 We've written a lot of code - let's test
                 <br><br>
-                <pre><code>
+                <pre><code class="bash">
 $ node worker.js
 (in another terminal)
 $ redis-cli
@@ -619,12 +618,15 @@ redis-cli> get "lock.2"
             <section>
                 <h2>Part 4</h2>
                 A Live Competition!
+<br><br>
+    If your code has errors, start with the files from directory
+    <b><p> /act-1-network-services/begin-part-4/ </p></b>
             </section>
 
             <section>
                 <h3>Host: 54.191.82.237</h3>
                 <h3>Port: 6379</h3>
-
+                <br><br>
                 <p>Everyone connect with a unique worker name</p>
                 <br>
                 <p>We'll dispatch a notification, and see which worker wins!</p>
@@ -639,7 +641,7 @@ redis-cli> get "lock.2"
             <section>
                 <h2>Final Step</h2>
                 Call a function to send a notification...
-                <pre><code>
+                <pre><code class="javascript">
     function lockCallback(data) {
         if(data.acquired == true) {
             console.log("I got the lock!");
@@ -653,7 +655,7 @@ redis-cli> get "lock.2"
             </section>
             <section>
                 <h2>Final Step ..send some SMTP</h2>
-                <pre><code>
+                <pre><code class="javascript">
 function sendMessage(payload) {
     console.log("Sending email notification...");
     var smtpTransport = mailer.createTransport("SMTP",{
@@ -699,7 +701,7 @@ function sendMessage(payload) {
 
             <section>
                 <h2>Step 1: Create package.json:</h2>
-                <pre><code >
+                <pre><code class="json">
                     {
                       "name": "Express Basic Tutorial",
                       "description": "I'm learning nodejs express!",
@@ -712,18 +714,18 @@ function sendMessage(payload) {
                 </code></pre>
 
                 <h3>Hint</h3> To find the latest available version of a module
-                <pre><code >
+                <pre><code class="bash">
                     $ npm info express version
                 </code></pre>
                 Or you can simply say
-                <pre><code >
+                <pre><code class="json">
                     "express": "*"
                 </code></pre>
             </section>
 
             <section>
                 <h2>Step 2: Create README.md</h2>
-                <pre><code >
+                <pre><code class="markdown">
                     # Meet My App
                     App, audience. Audience, app.
                 </code></pre>
@@ -732,7 +734,7 @@ function sendMessage(payload) {
 
             <section>
                 <h2>Step 3: <strike>Profit</strike> Create app.js</h2>
-                <pre><code >
+                <pre><code class="javascript">
                     var express = require('express');
                     var app = express();
 
@@ -748,14 +750,14 @@ function sendMessage(payload) {
 
             <section>
                 <h2>Step 4: Install your dependencies</h2>
-                <pre><code >
+                <pre><code class="bash">
                     $ npm install
                 </code></pre>
             </section>
 
             <section>
                 <h2>Step 5: Run it</h2>
-                <pre><code >
+                <pre><code class="bash">
                     $ node app.js
                 </code></pre>
                 <h4>and visit</h4>
@@ -781,7 +783,7 @@ function sendMessage(payload) {
 
             <section>
                 <h2>Express Generator</h2>
-                <pre><code >
+                <pre><code class="bash">
                 $ npm install -g express-generator
                 $ express -e ejs myapp
                 $ npm install
@@ -811,7 +813,7 @@ function sendMessage(payload) {
             <section>
                 <h2>Write a view</h2>
                 <h3>at /views/visits.ejs:</h3>
-                <pre><code >
+                <pre><code class="html">
     &lt;!DOCTYPE html&gt;
     &lt;html&gt;
       &lt;head&gt;
@@ -829,7 +831,7 @@ function sendMessage(payload) {
             <section>
                 <h2>Write a route</h2>
                 <h3>at /routes/visits.js:</h3>
-                <pre><code >
+                <pre><code class="javascript">
             var express = require('express');
             var router = express.Router();
 
@@ -845,7 +847,7 @@ function sendMessage(payload) {
             <section>
                 <h2>Hook up requests with the route</h2>
                 <h3>in app.js:</h3>
-                <pre><code >
+                <pre><code class="javascript">
             ...
             var routes = require('./routes/index');
             var users = require('./routes/users');
@@ -869,7 +871,7 @@ function sendMessage(payload) {
 
             <section>
                 <h2>First, add a bit to package.json for the mongo dependency</h2>
-                <pre><code >
+                <pre><code class="json">
                    ...
                     "debug": "~0.7.4",
                     "ejs": "~0.8.5",
@@ -878,14 +880,14 @@ function sendMessage(payload) {
                 }
                 </code></pre>
                 <h3>and install</h3>
-                <pre><code >
+                <pre><code class="bash">
                     $ npm install
                 </code></pre>
             </section>
 
             <section>
                 <h2>a model, visit.js, in /models</h2>
-                <pre><code >
+                <pre><code class="javascript">
                 var mongoose = require('mongoose')
                    ,Schema = mongoose.Schema
                    ,ObjectId = Schema.ObjectId;
@@ -902,7 +904,7 @@ function sendMessage(payload) {
 
             <section>
                 <h2>using that model to write data to mongo in app.js</h2>
-                <pre><code >
+                <pre><code class="javascript">
             var mongoose = require('mongoose');
             mongoose.connect('mongodb://localhost/myapp');
 
@@ -919,7 +921,7 @@ function sendMessage(payload) {
             <section>
                 <h2>careful</h2>
                 <h3>Now that our app will try to talk to a database, that database will need to be running</h3>
-                <pre><code >
+                <pre><code class="bash">
                     $ mongod --config /usr/local/etc/mongod.conf
                 </code></pre>
             </section>
@@ -931,7 +933,7 @@ function sendMessage(payload) {
 
             <section>
                 <h2>Modify the route to fetch the data</h2>
-                <pre><code >
+                <pre><code class="javascript">
             ..
             var Visit = require("../models/visit.js");
 
@@ -950,7 +952,7 @@ function sendMessage(payload) {
 
             <section>
                 <h2>And modify the view to render it</h2>
-                <pre><code >
+                <pre><code class="html">
             ..
             &lt;h1&gt;Hi, {% my_name %}&lt;/h1&gt;
             &lt;% for(var v in visits){ %&gt;
@@ -990,7 +992,7 @@ function sendMessage(payload) {
             <section>
                 <h2>Let's try it</h2>
                 <h3>First, set up your dependency</h3>
-                <pre><code >
+                <pre><code class="json">
                     ...
                         "debug": "~0.7.4",
                         "ejs": "~0.8.5",
@@ -1000,14 +1002,14 @@ function sendMessage(payload) {
                     }
                 </code></pre>
                 <h3>And install</h3>
-                <pre><code >
+                <pre><code class="bash">
                     $ npm install
                 </code></pre>
             </section>
 
             <section>
                 <h3>Socket.IO runs as its own server, alongside our Express app</h3>
-                <pre><code >
+                <pre><code class="javascript">
                     var server = require('http').createServer(app);
                     var io = require('socket.io').listen(server);
                     server.listen(3001);
@@ -1017,7 +1019,7 @@ function sendMessage(payload) {
 
             <section>
                 <h3>We define "endpoints", or "namespaces" for the server, much like routes.</h3>
-                <pre><code >
+                <pre><code class="javascript">
             // -- '/chat' is the namespace identifier
             // -- the callback function is the middleware we define
             // -- for the namespace identifier
@@ -1035,7 +1037,7 @@ function sendMessage(payload) {
 
             <section>
                 <h3>This is just an HTML form, which will help us interact with the server from the client</h3>
-                <pre><code >
+                <pre><code class="html">
         &lt;div id="chatlog" style="height: 200px;overflow-y:scroll;"&gt;&lt;/div&gt;
         &lt;textarea id="chatwindow" cols="30" rows="10"&gt;&lt;/textarea&gt;
         &lt;input id="send_chat" type="submit" value="Send" /&gt;
@@ -1045,7 +1047,7 @@ function sendMessage(payload) {
 
             <section>
                 <h3>Here is our client-side javascript, which connects to, reacts to, and sends messages to the server</h3>
-                <pre><code >
+                <pre><code class="html">
         &lt;script src="http://localhost:3001/socket.io/socket.io.js"&gt;&lt;/script&gt;
         &lt;script src="//code.jquery.com/jquery-1.10.2.min.js"&gt;&lt;/script&gt;
 
@@ -1100,7 +1102,7 @@ function sendMessage(payload) {
             <section>
                 <h2>Let's check it out</h2>
                 <h3>Install Meteor, and create a new dir</h3>
-                <pre><code >
+                <pre><code class="bash">
                 $ npm install meteor -g
                 $ mkdir node-act3
                 $ cd node-act3
@@ -1108,7 +1110,7 @@ function sendMessage(payload) {
             </section>
             <section>
                 <h2>Meteor has a generator, too!</h2>
-                <pre><code >
+                <pre><code class="bash">
                 $ meteor create mapit
                 $ cd mapit
                 $ meteor
@@ -1131,7 +1133,7 @@ function sendMessage(payload) {
                 <h3>It's really because meteor has installed its own</h3><h3> embedded instance of Mongodb</h3>
                 <br>
                 <h4>You can access it anytime using:</h4>
-                <pre><code >
+                <pre><code class="bash">
                 $ meteor mongo
                 </code></pre>
             </section>
@@ -1165,7 +1167,7 @@ function sendMessage(payload) {
             </section>
             <section>
                 <h2>You'll see two sections in the mapit.js file:</h2>
-                <pre><code >
+                <pre><code class="javascript">
                     if (Meteor.isClient) {
                         ...
                     }
@@ -1195,7 +1197,7 @@ function sendMessage(payload) {
                 <h1>Check this out</h1>
                 <br>
                 <h2>mapit.js:</h2>
-                <pre><code >
+                <pre><code class="javascript">
                     Messages = new Meteor.collection('messages');
                     if (Meteor.isClient) {
 
