@@ -30,11 +30,12 @@ if (Meteor.isClient) {
 
     // initialize Leaflet map object
     window.map = L.map('map', {
-      doubleClickZoom: false
+      doubleClickZoom: false,
+      zoomControl:false
     }).setView([45.52854352208366,-122.66302943229674], 13);
 
     // assign click event to add markers
-    window.map.on('click', function(event, object) {
+    window.map.on('dblclick', function(event, object) {
         // We're storing the marker coordinates in an extensibel JSON
         // data structure, to leave room to add more info later
         console.log("inserting marker: " + event.latlng);
