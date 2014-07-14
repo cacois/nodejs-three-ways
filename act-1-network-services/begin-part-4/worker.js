@@ -1,53 +1,42 @@
 /**
  * worker.js
  *
- * Note: this code is hevaily influenced by code published by Joshua Cohen at Flikr - http://code.flickr.net/2012/12/12/highly-available-real-time-notifications/
+ * Note: this code is heavily influenced by code published by Joshua Cohen at Flikr - http://code.flickr.net/2012/12/12/highly-available-real-time-notifications/
  */
 
-// Require statements - include necessary Node.js modules
-var redis = require("redis"),
-    mailer = require('nodemailer');
+// import the redis module
+var redis = require("redis");
 
 // read in the config file as a JavaScript object
 var config = require("./config.js");
 
-// Set up Redis client connections
-// we need a regular client to write to Redis...
+// create a redis client object
+var pubSubClient = redis.createClient(config.port, config.host);
 var client = redis.createClient(config.port, config.host);
-// ...and a pubsub client to subscribe to a channel
-var pubsubClient = redis.createClient(config.port, config.host);
 
-// subscribe to the 'notifications' channel and define a method to be called when a message is detected
-pubsubClient.subscribe("notifications");
-pubsubClient.on("message", handleMessage);
+// subscribe to 'notifications' collection
+pubSubClient.subscribe("notifications");
 
-//==== Methods ====//
+// define message handler
+pubSubClient.on("message", handleMessage);
 
-/**
- * Callback function to handle an incoming message received
- * from Redis notifications channel
- */
 function handleMessage(channel, message) {
-    console.log('Received a message: %s', message)
+    console.log('Received a message: ' + message);
 
     var payload = JSON.parse(message);
 
-    acquireLock(payload, 1, lockCallback);
+    acquireLock(payload, lockCallback);
 }
 
-/**
- * Function to try to acquire a lock to send a notification
- * for the incoming message
- */
-function acquireLock(payload, attempt, callback) {
+function acquireLock(payload, callback) {
     // create a lock id string
     var lockIdentifier = "lock." + payload.identifier;
 
     console.log("Trying to obtain lock: %s", lockIdentifier);
 
-    client.setnx(lockIdentifier, "My Name", function(error, success) {
+    client.setnx(lockIdentifier, "Worker Name", function(error, success) {
         if (error) {
-            logger.error("Error trying to acquire redis lock for: %s", lockIdentifier);
+            logger.error("Error acquiring lock for: %s", lockIdentifier);
             return callback(error, dataForCallback(false));
         }
 
@@ -60,47 +49,14 @@ function acquireLock(payload, attempt, callback) {
     });
 }
 
-/**
- * A callback function invoked after a lock acquisition attempt
- */
 function lockCallback(data) {
     if(data.acquired == true) {
         console.log("I got the lock!");
 
-        // send email notification
-        sendMessage(data);
+        // send notification!
+        // TODO: actually notify
+        console.log('I win! Sending notification: %s',
+                     JSON.stringify(data));
     }
     else console.log("No lock for me :(");
-}
-
-/**
- * A function to send an email using Google's SMTP server
- *
- * Note: remember to get an application-specific password from your
- * Google account and paste it in below.
- */
-function sendMessage(payload) {
-    console.log("Sending email notification...");
-    var smtpTransport = mailer.createTransport("SMTP",{
-        service: "Gmail",
-        auth: {
-            user: "<Google username>",
-            pass: "<your Google application-specific password>"
-        }
-    });
-
-    var mailOptions = {
-        from: "<email>", // sender address
-        to: "<email>", // list of receivers
-        subject: "Notification from Node.js", // Subject line
-        text: "You are hereby notified!", // plaintext body
-        html: "<b>You are hereby notified!</b>" // html body
-    };
-
-    smtpTransport.sendMail(mailOptions, function(error, response){
-        if(error) console.log("Error sending mail: " + error);
-        else console.log("Message sent: " + response.message);
-
-        smtpTransport.close(); // shut down the connection pool, no more messages
-    });
 }

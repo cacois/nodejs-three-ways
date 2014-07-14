@@ -1,0 +1,10 @@
+{
+    "name": "act-1-network-services",
+    "author": "MY NAME <my@email.com>",
+    "version": "1.0.0",
+    "dependencies": {
+        "redis": "*",
+        "nodemailer": "*"
+    },
+    "engine": { "node" : ">=0.10.0" }
+}
