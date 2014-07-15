@@ -469,7 +469,7 @@ $ apt-get install mongodb
 
             <section>
                 <h3>worker.js should look like this:</h2>
-                <pre><code class="javascript" style="font-size: 13pt">
+                <pre class="stretch"><code class="javascript" style="font-size: 13pt">
       // import the redis module
       var redis = require("redis");
 
@@ -535,14 +535,13 @@ $ apt-get install mongodb
             </section>
             <section>
                 <h3>worker.js</h3>
-                <pre><code class="javascript">
+                <pre class="stretch"><code class="javascript">
 ...
 var client = redis.createClient(config.port, config.host);
 ...
 function acquireLock(payload, callback) {
     // create a lock id string
     var lockIdentifier = "lock." + payload.identifier;
-
     console.log("Trying to obtain lock: %s", lockIdentifier);
 
     client.setnx(lockIdentifier, "Worker Name", function(error, success) {
@@ -554,8 +553,7 @@ function acquireLock(payload, callback) {
         var data = {
             "acquired" : success,
             "lockIdentifier" : lockIdentifier,
-            "payload" : payload
-        };
+            "payload" : payload };
         return callback(data);
     });
 }
@@ -595,22 +593,22 @@ function lockCallback(data) {
             <section>
                 We've written a lot of code - let's test
                 <br><br>
-                <pre><code class="bash">
-$ node worker.js
-(in another terminal)
-$ redis-cli
+                <pre class="stretch"><code class="bash">
+    $ node worker.js
+    (in another terminal)
+    $ redis-cli
 
-redis-cli> publish notifications '{"identifier": 2, "message": "in a bottle"}'
+    redis-cli> publish notifications '{"identifier": 2, "message": "in a bottle"}'
 
-    // this next command will show you the keys currently in
-    // redis. You should see "lock.2"
+        // this next command will show you the keys currently in
+        // redis. You should see "lock.2"
 
-redis-cli> keys *
+    redis-cli> keys *
 
-    // this command will show the value for the key "lock.2". This
-    // will be the name of the worker who won the lock
+        // this command will show the value for the key "lock.2". This
+        // will be the name of the worker who won the lock
 
-redis-cli> get "lock.2"
+    redis-cli> get "lock.2"
                 </code></pre>
 
             </section>
@@ -654,16 +652,15 @@ redis-cli> get "lock.2"
                 </code></pre>
             </section>
             <section>
-                <h2>Final Step ..send some SMTP</h2>
-                <pre><code class="javascript">
+                <h3>Final Step ..send some SMTP</h3>
+                <pre class="stretch"><code class="javascript">
 function sendMessage(payload) {
     console.log("Sending email notification...");
     var smtpTransport = mailer.createTransport("SMTP",{
         service: "Gmail",
         auth: {
           user: "&ltGoogle username>",
-          pass: "&ltyour Google application-specific password>"
-        }
+          pass: "&ltyour Google application-specific password>" }
     });
     var mailOptions = {
         from: "&ltemail&gt;", // sender address
@@ -675,7 +672,7 @@ function sendMessage(payload) {
     smtpTransport.sendMail(mailOptions, function(error, response){
         if(error) console.log("Error sending mail: " + error);
         else console.log("Message sent: " + response.message);
-        smtpTransport.close(); // shut down the connection pool, no more messages
+        smtpTransport.close(); // shut down the connection pool
     });
 }
                 </code></pre>
