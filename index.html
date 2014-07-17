@@ -1,14 +1,36 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Reveal.js 3 Slide Demo</title>
-    <link rel="stylesheet" href="css/reveal.min.css">
-    <link rel="stylesheet" href="css/theme/default.css" id="theme">
+    <title>Node.js Three Ways</title>
 
-    <!--Add support for earlier versions of Internet Explorer -->
-    <!--[if lt IE 9]>
-    <script src="lib/js/html5shiv.js"></script>
-    <![endif]-->
+    <meta name="description" content="An OSCON 20214 Workshop. Learn to create Node.js applications using three approaches: vanilla Node.js for network services, Express MVC applications, and Reactive applications using Meteor">
+		<meta name="author" content="Constantine Aaron Cois and Tim Palko">
+
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<link rel="stylesheet" href="css/reveal.min.css">
+		<link rel="stylesheet" href="css/theme/default.css" id="theme">
+
+		<!-- For syntax highlighting -->
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+
+		<!-- If the query includes 'print-pdf', include the PDF print sheet -->
+		<script>
+			if( window.location.search.match( /print-pdf/gi ) ) {
+				var link = document.createElement( 'link' );
+				link.rel = 'stylesheet';
+				link.type = 'text/css';
+				link.href = 'css/print/pdf.css';
+				document.getElementsByTagName( 'head' )[0].appendChild( link );
+			}
+		</script>
+
+		<!--[if lt IE 9]>
+		<script src="lib/js/html5shiv.js"></script>
+		<![endif]-->
 </head>
 
 <body>
@@ -19,6 +41,93 @@
 
             <!-- Introduction -->
             <section>
+                <h2>Example two-column slide</h2>
+                <div class="column" style="float: left;margin: 0;width: 50%;">
+                    Content in here
+                    <pre><code class="javascript">
+fs = require('fs');
+ 
+fs.readFile('f1.txt','utf8',
+
+function(err,data) {
+    if (err) {
+    // handle error
+       }
+       console.log(data);
+}
+
+);
+                    </code></pre>
+                </div>
+                <div class="column" style="float: left;margin: 0;width: 50%;">
+                    More content
+                    <pre><code class="javascript">
+fs = require('fs');
+ 
+fs.readFile('f1.txt','utf8',
+
+function(err,data) {
+    if (err) {
+    // handle error
+       }
+       console.log(data);
+}
+
+);
+                    </code></pre>
+                </div>
+            </section>
+
+            <section>
+                <h2>Before we get started, Install These:</h2>
+                <br>
+                <div class="column" style="float: left;margin: 0;width: 29%;">
+                    <h4>OSX</h4>
+                    <pre><code class="javascript">
+(if you have homebrew)
+
+$ brew install node
+$ brew install redis
+$ brew install mongo
+                    </code></pre>
+
+                </div>
+                <div class="column" style="float: left;margin: 0;width: 40%;">
+                    <h4>Ubuntu/Debian</h4>
+                    <pre><code class="javascript">
+(use sudo if necessary)
+
+$ apt-get install nodejs
+$ apt-get install redis-server
+$ apt-get install mongodb
+
+
+                    </code></pre>
+                </div>
+                <div class="column" style="float: left;margin: 0;width: 31%;">
+                    <h4>Windows</h4>
+                    <pre><code class="javascript">
+(using chocolatey)
+
+> cinst nodejs.install
+> cinst redis
+> cinst mongodb
+                    </code></pre>
+                </div>
+
+<br><br><p>or go to:</p>
+<a href="http://www.nodejs.org">http://www.nodejs.org</a> |
+<a href="http://www.mongodb.org/downloads">http://www.mongodb.org/downloads</a> |
+<a href="http://redis.io/download">http://redis.io/download</a>
+<br>
+<br><p>And clone the workshop repo:</p>
+<pre><code class="javascript">
+        $ git clone https://github.com/cacois/nodejs-three-ways
+
+</code></pre>
+            </section>
+
+            <section>
                 <h1>Node.js Three Ways</h1>
                 <h2>A Tutorial in Three Acts</h2>
                 <p>Constantine Aaron Cois and Tim Palko</p>
@@ -26,24 +135,32 @@
             </section>
 
             <section>
-                <h2>Aaron === @aaroncois</h2>
-                <h3><a href="http://www.codehenge.net">www.codehenge.net</a></h3>
-                <h3><a href="http://github.com/cacois">http://github.com/cacois</a></h3>
-                <br><br>
-                <h2>Tim === Tim</h2>
+                <h2>Aaron = </h2>
+                <p style="text-align: left;margin-left: 300;">{</p>
+                <p style="text-align: left;margin-left: 350;">twitter: <a href="https://twitter.com/aaroncois">@aaroncois</a>,</p>
+                <p style="text-align: left;margin-left: 350;">blog: <a href="http://www.codehenge.net">www.codehenge.net</a>,</p>
+                <p style="text-align: left;margin-left: 350;">github: <a href="http://github.com/cacois">http://github.com/cacois </a></p>
+                <p style="text-align: left;margin-left: 300;">}</p>
+                <br>
+                <h2>Tim =</h2>
+                <p style="text-align: left;margin-left: 300;">{</p>
+                <p style="text-align: left;margin-left: 300;">}</p>
             </section>
             <section>
                 <h2>Code</h2>
-                <b>Working code</b> from this workshop can be found on github:
+                <b>Code</b> for this workshop can be found on github:
                 <br><br>
                 <h3><a href="https://github.com/cacois/nodejs-three-ways">https://github.com/cacois/nodejs-three-ways</a></h3>
                 <br><br>
                 <h2>Slides</h2>
-                You can also find these slides here:
+                You can also find slides here:
                 <br><br>
                 <h3><a href="http://cacois.github.io/nodejs-three-ways/#/">http://cacois.github.io/nodejs-three-ways/#/</a></h3>
             </section>
 
+            <section>
+                <h1>The Basics</h1>
+            </section>
             <section id="slide2">
                 <h1>Node.js!</h1>
                 <p>What's the big deal?</p>
@@ -110,7 +227,7 @@
 
             <section>
               <h1>Callbacks</h1>
-              <pre><code>
+              <pre><code class="javascript">
                 fs = require('fs');
  
                 fs.readFile('f1.txt','utf8',function(err,data){
@@ -125,7 +242,7 @@
             <section>
               <h1>Callbacks</h1>
               <h3>Equivalent Syntax </h3>
-              <pre><code >
+              <pre><code class="javascript">
                 fs = require('fs');
  
                 fs.readFile('f1.txt','utf8',
@@ -161,26 +278,8 @@
             </section>
 
             <section>
-                <h2>Make sure you have Node.js installed</h2>
-                <br>
-                <p>http://www.nodejs.org</p>
-                <br>
-                <h2>And Redis</h2>
-                <br>
-                <pre><code>
-    $ wget http://download.redis.io/releases/redis-2.8.12.tar.gz
-    $ tar xzf redis-2.8.12.tar.gz && cd redis-2.8.12
-    $ make
-                </code></pre>
-                <p>You should see the server startup in stand alone mode with:</p>
-                <pre><code>
-    $ redis-server
-                </code></pre>
-            </section>
-
-            <section>
-                <h2>Create a project directory and code file</h2>
-                <pre><code>
+                <h2>Create a project directory and file</h2>
+                <pre><code class="bash">
                   $ mkdir node-act1
                   $ cd node-act1
                   $ touch worker.js
@@ -190,15 +289,19 @@
             </section>
 
             <section>
+                <h1>Part 1</h1>
+            </section>
+
+            <section>
                 <h2>A first test</h2>
 
                 Put the following in worker.js:
-                <pre><code>
+                <pre><code class="javascript">
                   console.log("Hello OSCON!");
                 </code></pre>
 
                 ...and run it:
-                <pre><code >
+                <pre><code class="bash">
                   $ node worker.js
                 </code></pre>
             </section>
@@ -209,11 +312,11 @@
               We will need to use some external packages for our app.
               <br><br>
               Specifically, we will need the Redis client package. Install it using:
-              <pre><code>
+              <pre><code class="bash">
                 $ npm install redis
               </code></pre>
               The package will be installed in a local node_modules directory. Check it out:
-              <pre><code>
+              <pre><code class="bash">
                 $ ls node_modules
               </code></pre>
             </section>
@@ -235,23 +338,23 @@
               // define message handler
               pubSubClient.on("message", function(channel, message) {
                   console.log('Received a message: ' + message);
-              });            
+              });
                 </code></pre>
               </section>
               <section>
                 Start the redis server in one window...
-                <pre><code>
+                <pre><code class="bash">
                   $ redis-server
                 </code></pre>
                 ...and run your app in another...
-                <pre><code >
+                <pre><code class="bash">
                   $ node worker.js
                 </code></pre>
             </section>
 
             <section>
                 Now let's test. Write to the collecion in Redis:
-                <pre><code >
+                <pre><code class="bash">
   $ redis-cli
 
   redis-cli> publish notifications '{"identifier": 1, "message": "Huzzah!"}'
@@ -265,20 +368,27 @@
             </section>
 
             <section>
+                <h1>Part 2</h1>
+<br>
+    If your code has errors, start with the files from directory
+    <b><p> /act-1-network-services/begin-part-2/ </p></b>
+            </section>
+
+            <section>
               Now let's take a step back and set up some basic stuff for our project
             </section>
 
             <section>
                 <h2>Config File</h2>
                 <br>
-                My favorite config pattern Node is to create a module to store my config
+                I like to use a module for config data
                 <br><br>
-                Create a file:
-                <pre><code >
+                Create a file named config.js:
+                <pre><code class="bash">
                   $ touch config.js
                 </code></pre>
                 .. and put the following content in it:
-                <pre><code >
+                <pre><code class="bash">
                 module.exports = {
                   host: 'localhost',
                   port: 6379
@@ -289,15 +399,15 @@
 
             <section>
               Now import the file into your worker.js app by adding the following to the top of the file:
-              <pre><code >
+              <pre><code class="javascript">
             var config = require("./config.js");
               </code></pre>
               Now we can replace the Redis client instantiation:
-              <pre><code >
+              <pre><code class="javascript">
             var pubSubClient = redis.createClient('6379', 'localhost');
               </code></pre>
               with:
-              <pre><code >
+              <pre><code class="javascript">
             var pubSubClient = redis.createClient(config.port, config.host);
               </code></pre>
               <br>
@@ -311,7 +421,7 @@
               But can we automate this, and centrally manage package requirements?
               <br><br>
               Yes, with a package.json file:
-              <pre><code >
+              <pre><code class="bash">
             $ touch package.json
               </code></pre>
             </section>
@@ -321,7 +431,7 @@
               A lot of info can go into a package.json file
               <br><br>
               We'll only use a small bit of its functionality here. Write this:
-              <pre><code >
+              <pre><code class="json">
             {
               "name": "act-1-network-services",
               "author": "MY NAME &lt;my@email.com&gt;",
@@ -344,34 +454,38 @@
             <section>
               <h2>NPM Install</h2>
               Now that we have a package.json, we can install the app and its dependencies in one command:
-              <pre><code >
+              <pre><code class="bash">
             $ npm install
               </code></pre>
               <p>NPM will look for a local package.json and use it to set everything up</p>
             </section>
 
             <section>
-                <h2>Now back to the action...</h2>
-                <br>
+                <h1>Part 3</h1>
+<br>
+    If your code has errors, start with the files from directory
+    <b><p> /act-1-network-services/begin-part-3/ </p></b>
+            </section>
+
+            <section>
                 <h3>worker.js should look like this:</h2>
-                <pre><code >
-              // import the redis module
-              var redis = require("redis");
+                <pre class="stretch"><code class="javascript" style="font-size: 13pt">
+      // import the redis module
+      var redis = require("redis");
 
-              // read in the config file as a JavaScript object
-              var config = require("./config.js");
+      // read in the config file as a JavaScript object
+      var config = require("./config.js");
 
-              // create a redis client object
-              var pubSubClient = redis.createClient(config.port, config.host);
-              var client = redis.createClient(config.port, config.host);
+      // create a redis client object
+      var pubSubClient = redis.createClient(config.port, config.host);
 
-              // subscribe to 'notifications' collection
-              pubSubClient.subscribe("notifications");
+      // subscribe to 'notifications' collection
+      pubSubClient.subscribe("notifications");
 
-              // define message handler
-              pubSubClient.on("message", function(channel, message) {
-                  console.log('Received a message: ' + message);
-              });
+      // define message handler
+      pubSubClient.on("message", function(channel, message) {
+          console.log('Received a message: ' + message);
+      });
                 </code></pre>
             </section>
 
@@ -379,7 +493,7 @@
                 Let's make that message handler function a bit more manageable
                 <br><br>
                 Move the closure out to a separtely defined function:
-                <pre><code >
+                <pre><code class="javascript">
             // define message handler
             pubSubClient.on("message", handleMessage);
 
@@ -395,7 +509,11 @@
                 We want multiple, fault-tolerant workers to handle notifications. This will make our system scalable.
                 <br><br>
                 We can accomplish this by making all workers race to handle any notification dispatched - which means <em>locks</em>
-                <pre><code >
+            </section>
+            <section>
+                <h3>worker.js</h3>
+                <pre><code class="javascript">
+            ...
             // define message handler
             pubSubClient.on("message", handleMessage);
 
@@ -404,7 +522,7 @@
 
                 var payload = JSON.parse(message);
 
-                acquireLock(payload, 1, lockCallback);
+                acquireLock(payload, lockCallback);
             }
                 </code></pre>
 
@@ -414,27 +532,31 @@
             <section>
                 <h2>acquireLock</h2>
                 We can use Redis for locks, too. The first worker to write a lock for a given notification wins!
-                <pre><code >
-    function acquireLock(payload, attempt, callback) {
-        // create a lock id string
-        var lockIdentifier = "lock." + payload.identifier;
+            </section>
+            <section>
+                <h3>worker.js</h3>
+                <pre class="stretch"><code class="javascript">
+...
+var client = redis.createClient(config.port, config.host);
+...
+function acquireLock(payload, callback) {
+    // create a lock id string
+    var lockIdentifier = "lock." + payload.identifier;
+    console.log("Trying to obtain lock: %s", lockIdentifier);
 
-        console.log("Trying to obtain lock: %s", lockIdentifier);
+    client.setnx(lockIdentifier, "Worker Name", function(error, success) {
+        if (error) {
+            logger.error("Error acquiring lock for: %s", lockIdentifier);
+            return callback(error, dataForCallback(false));
+        }
 
-        client.setnx(lockIdentifier, "Worker Name", function(error, success) {
-            if (error) {
-                logger.error("Error acquiring lock for: %s", lockIdentifier);
-                return callback(error, dataForCallback(false));
-            }
-
-            var data = {
-                "acquired" : success,
-                "lockIdentifier" : lockIdentifier,
-                "payload" : payload
-            };
-            return callback(data);
-        });
-    }
+        var data = {
+            "acquired" : success,
+            "lockIdentifier" : lockIdentifier,
+            "payload" : payload };
+        return callback(data);
+    });
+}
                 </code></pre>
 
             </section>
@@ -449,43 +571,63 @@
 
             <section>
                 <h2>lockCallback</h2>
-                Now we need a callback after the worker attempts to acquire a lock.
-                <br><br><p>This function needs to handle success or failure by a given worker.</p>
-                <pre><code>
-    function lockCallback(data) {
-        if(data.acquired == true) {
-            console.log("I got the lock!");
+                Now the callback after a worker tried to acquire a lock.
+                <br><br>
+                <h3>worker.js</h3>
+                <pre><code class="javascript">
+...
+function lockCallback(data) {
+    if(data.acquired == true) {
+        console.log("I got the lock!");
 
-            // send notification!
-            // TODO: actually notify
-            console.log('I win! Sending notification: %s',
-                         JSON.stringify(data));
-        }
-        else console.log("No lock for me :(");
+        // send notification!
+        // TODO: actually notify
+        console.log('I win! Sending notification: %s',
+                     JSON.stringify(data));
     }
+    else console.log("No lock for me :(");
+}
                 </code></pre>
             </section>
 
             <section>
                 We've written a lot of code - let's test
                 <br><br>
-                <pre><code>
-$ node worker.js
-$ redis-cli
+                <pre class="stretch"><code class="bash">
+    $ node worker.js
+    (in another terminal)
+    $ redis-cli
 
-redis-cli> publish notifications '{"identifier": 2, "message": "in a bottle"}'
+    redis-cli> publish notifications '{"identifier": 2, "message": "in a bottle"}'
 
-    // this next command will show you the keys currently in
-    // redis. You should see "lock.2"
+        // this next command will show you the keys currently in
+        // redis. You should see "lock.2"
 
-redis-cli> keys *
+    redis-cli> keys *
 
-    // this command will show the value for the key "lock.2". This
-    // will be the name of the worker who won the lock
+        // this command will show the value for the key "lock.2". This
+        // will be the name of the worker who won the lock
 
-redis-cli> get "lock.2"
+    redis-cli> get "lock.2"
                 </code></pre>
 
+            </section>
+
+            <section>
+                <h2>Part 4</h2>
+                A Live Competition!
+<br><br>
+    If your code has errors, start with the files from directory
+    <b><p> /act-1-network-services/begin-part-4/ </p></b>
+            </section>
+
+            <section>
+                <h3>Host: 54.191.82.237</h3>
+                <h3>Port: 6379</h3>
+                <br><br>
+                <p>Everyone connect with a unique worker name</p>
+                <br>
+                <p>We'll dispatch a notification, and see which worker wins!</p>
             </section>
 
             <section>
@@ -497,7 +639,7 @@ redis-cli> get "lock.2"
             <section>
                 <h2>Final Step</h2>
                 Call a function to send a notification...
-                <pre><code>
+                <pre><code class="javascript">
     function lockCallback(data) {
         if(data.acquired == true) {
             console.log("I got the lock!");
@@ -510,16 +652,15 @@ redis-cli> get "lock.2"
                 </code></pre>
             </section>
             <section>
-                <h2>Final Step ..send some SMTP</h2>                
-                <pre><code>
+                <h3>Final Step ..send some SMTP</h3>
+                <pre class="stretch"><code class="javascript">
 function sendMessage(payload) {
     console.log("Sending email notification...");
     var smtpTransport = mailer.createTransport("SMTP",{
         service: "Gmail",
-        auth: { 
+        auth: {
           user: "&ltGoogle username>",
-          pass: "&ltyour Google application-specific password>"
-        }
+          pass: "&ltyour Google application-specific password>" }
     });
     var mailOptions = {
         from: "&ltemail&gt;", // sender address
@@ -531,7 +672,7 @@ function sendMessage(payload) {
     smtpTransport.sendMail(mailOptions, function(error, response){
         if(error) console.log("Error sending mail: " + error);
         else console.log("Message sent: " + response.message);
-        smtpTransport.close(); // shut down the connection pool, no more messages
+        smtpTransport.close(); // shut down the connection pool
     });
 }
                 </code></pre>
@@ -557,7 +698,7 @@ function sendMessage(payload) {
 
             <section>
                 <h2>Step 1: Create package.json:</h2>
-                <pre><code >
+                <pre><code class="json">
                     {
                       "name": "Express Basic Tutorial",
                       "description": "I'm learning nodejs express!",
@@ -570,18 +711,18 @@ function sendMessage(payload) {
                 </code></pre>
 
                 <h3>Hint</h3> To find the latest available version of a module
-                <pre><code >
+                <pre><code class="bash">
                     $ npm info express version
                 </code></pre>
                 Or you can simply say
-                <pre><code >
+                <pre><code class="json">
                     "express": "*"
                 </code></pre>
             </section>
 
             <section>
                 <h2>Step 2: Create README.md</h2>
-                <pre><code >
+                <pre><code class="markdown">
                     # Meet My App
                     App, audience. Audience, app.
                 </code></pre>
@@ -590,7 +731,7 @@ function sendMessage(payload) {
 
             <section>
                 <h2>Step 3: <strike>Profit</strike> Create app.js</h2>
-                <pre><code >
+                <pre><code class="javascript">
                     var express = require('express');
                     var app = express();
 
@@ -606,14 +747,14 @@ function sendMessage(payload) {
 
             <section>
                 <h2>Step 4: Install your dependencies</h2>
-                <pre><code >
+                <pre><code class="bash">
                     $ npm install
                 </code></pre>
             </section>
 
             <section>
                 <h2>Step 5: Run it</h2>
-                <pre><code >
+                <pre><code class="bash">
                     $ node app.js
                 </code></pre>
                 <h4>and visit</h4>
@@ -639,7 +780,7 @@ function sendMessage(payload) {
 
             <section>
                 <h2>Express Generator</h2>
-                <pre><code >
+                <pre><code class="bash">
                 $ npm install -g express-generator
                 $ express -e ejs myapp
                 $ cd webapp
@@ -670,7 +811,7 @@ function sendMessage(payload) {
             <section>
                 <h2>Write a view</h2>
                 <h3>at /views/visits.ejs:</h3>
-                <pre><code >
+                <pre><code class="html">
     &lt;!DOCTYPE html&gt;
     &lt;html&gt;
       &lt;head&gt;
@@ -688,7 +829,7 @@ function sendMessage(payload) {
             <section>
                 <h2>Write a route</h2>
                 <h3>at /routes/visits.js:</h3>
-                <pre><code >
+                <pre><code class="javascript">
             var express = require('express');
             var router = express.Router();
 
@@ -704,7 +845,7 @@ function sendMessage(payload) {
             <section>
                 <h2>Hook up requests with the route</h2>
                 <h3>in app.js:</h3>
-                <pre><code >
+                <pre><code class="javascript">
             ...
             var routes = require('./routes/index');
             var users = require('./routes/users');
@@ -728,7 +869,7 @@ function sendMessage(payload) {
 
             <section>
                 <h2>First, add a bit to package.json for the mongo dependency</h2>
-                <pre><code >
+                <pre><code class="json">
                    ...
                     "debug": "~0.7.4",
                     "ejs": "~0.8.5",
@@ -737,14 +878,14 @@ function sendMessage(payload) {
                 }
                 </code></pre>
                 <h3>and install</h3>
-                <pre><code >
+                <pre><code class="bash">
                     $ npm install
                 </code></pre>
             </section>
 
             <section>
                 <h2>a model, visit.js, in /models</h2>
-                <pre><code >
+                <pre><code class="javascript">
                 var mongoose = require('mongoose')
                    ,Schema = mongoose.Schema
                    ,ObjectId = Schema.ObjectId;
@@ -761,7 +902,7 @@ function sendMessage(payload) {
 
             <section>
                 <h2>using that model to write data to mongo in app.js</h2>
-                <pre><code >
+                <pre><code class="javascript">
             var mongoose = require('mongoose');
             mongoose.connect('mongodb://localhost/myapp');
 
@@ -778,7 +919,7 @@ function sendMessage(payload) {
             <section>
                 <h2>careful</h2>
                 <h3>Now that our app will try to talk to a database, that database will need to be running</h3>
-                <pre><code >
+                <pre><code class="bash">
                     $ mongod --config /usr/local/etc/mongod.conf
                 </code></pre>
             </section>
@@ -791,7 +932,7 @@ function sendMessage(payload) {
 
             <section>
                 <h2>Modify the route visit.js to fetch the data</h2>
-                <pre><code >
+                <pre><code class="javascript">
             ..
 
             var Visit = require("../models/visit.js");
@@ -810,8 +951,8 @@ function sendMessage(payload) {
             </section>
 
             <section>
-                <h2>And modify the visits.ejs to render it</h2>
-                <pre><code >
+                <h2>And modify the view visits.ejs to render it</h2>
+                <pre><code class="html">
             ..
             &lt;h1&gt;Hi, <% my_name %>&lt;/h1&gt;
             &lt;% for(var v in visits){ %&gt;
@@ -851,7 +992,7 @@ function sendMessage(payload) {
             <section>
                 <h2>Let's try it</h2>
                 <h3>First, set up your dependency</h3>
-                <pre><code >
+                <pre><code class="json">
                     ...
                         "debug": "~0.7.4",
                         "ejs": "~0.8.5",
@@ -861,7 +1002,7 @@ function sendMessage(payload) {
                     }
                 </code></pre>
                 <h3>And install</h3>
-                <pre><code >
+                <pre><code class="bash">
                     $ npm install
                 </code></pre>
             </section>
@@ -869,7 +1010,7 @@ function sendMessage(payload) {
             <section>
                 <h3>Socket.IO runs as its own server, alongside our Express app</h3>
                 <p>Put this snippet near the top of app.js, after 'app' is defined.</p>
-                <pre><code >
+                <pre><code class="javascript">
                     var server = require('http').createServer(app);
                     var io = require('socket.io').listen(server);
                     server.listen(3001);
@@ -880,8 +1021,7 @@ function sendMessage(payload) {
                 <h3>We define "endpoints", or "namespaces" for the server, much like routes.</h3>
                 <p>Here, '/chat' is the namespace.</p>
                 <p>Put this snippet somewhere after 'io' is defined in app.js.</p>
-                <pre><code >
-            
+                <pre><code class="javascript">
             var chat = io.of('/chat').on('connection', function(socket){
                 socket.on('chat', function(data){
                     data.color = 'green';
@@ -895,9 +1035,8 @@ function sendMessage(payload) {
 
             <section>
                 <h3>This is just an HTML form, which will help us interact with the server from the client</h3>
-                <p>This snippet goes in index.ejs..</p>
-                <pre><code >
-        &lt;!-- somewhere in the BODY tag.. --&gt;
+                <p>This snippet goes in index.ejs somewhere in the BODY tag..</p>
+                <pre><code class="html">
         &lt;div id="chatlog" style="height: 200px;overflow-y:scroll;"&gt;&lt;/div&gt;
         &lt;textarea id="chatwindow" cols="30" rows="10"&gt;&lt;/textarea&gt;
         &lt;input id="send_chat" type="submit" value="Send" /&gt;
@@ -905,9 +1044,9 @@ function sendMessage(payload) {
             </section>
 
             <section>
-                <h3>Also in index.ejs we'll put our client-side javascript, which connects to, reacts to, and sends messages to the server</h3>
-                <pre><code >
-        &lt;!-- somewhere in the HEAD tag.. --&gt;
+                <h3>Also in index.ejs in the HEAD tag we'll put our client-side javascript, which connects to, reacts to, and sends messages to the server</h3>
+                
+                <pre><code class="html">
         &lt;script src="http://localhost:3001/socket.io/socket.io.js"&gt;&lt;/script&gt;
         &lt;script src="//code.jquery.com/jquery-1.10.2.min.js"&gt;&lt;/script&gt;
 
@@ -962,7 +1101,7 @@ function sendMessage(payload) {
             <section>
                 <h2>Let's check it out</h2>
                 <h3>Install Meteor, and create a new dir</h3>
-                <pre><code >
+                <pre><code class="bash">
                 $ npm install meteor -g
                 $ mkdir node-act3
                 $ cd node-act3
@@ -970,7 +1109,7 @@ function sendMessage(payload) {
             </section>
             <section>
                 <h2>Meteor has a generator, too!</h2>
-                <pre><code >
+                <pre><code class="bash">
                 $ meteor create mapit
                 $ cd mapit
                 $ meteor
@@ -993,7 +1132,7 @@ function sendMessage(payload) {
                 <h3>It's really because meteor has installed its own</h3><h3> embedded instance of Mongodb</h3>
                 <br>
                 <h4>You can access it anytime using:</h4>
-                <pre><code >
+                <pre><code class="bash">
                 $ meteor mongo
                 </code></pre>
             </section>
@@ -1027,7 +1166,7 @@ function sendMessage(payload) {
             </section>
             <section>
                 <h2>You'll see two sections in the mapit.js file:</h2>
-                <pre><code >
+                <pre><code class="javascript">
                     if (Meteor.isClient) {
                         ...
                     }
@@ -1057,7 +1196,7 @@ function sendMessage(payload) {
                 <h1>Check this out</h1>
                 <br>
                 <h2>mapit.js:</h2>
-                <pre><code >
+                <pre><code class="javascript">
                     Messages = new Meteor.collection('messages');
                     if (Meteor.isClient) {
 
@@ -1095,15 +1234,28 @@ function sendMessage(payload) {
     <script>
         // Required, even if empty.
         Reveal.initialize({
-          transition: 'default',
-          // Display the page number of the current slide
-          slideNumber: true,
-          dependencies: [
-            // Syntax highlight for <code> elements
-            { src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
-          ]
+            controls: true,
+  		    progress: true,
+  			history: true,
+  			center: true,
+            slideNumber: true,
 
+			theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+			transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
 
+			// Parallax scrolling
+			// parallaxBackgroundImage: 'https://s3.amazonaws.com/hakim-static/reveal-js/reveal-parallax-1.jpg',
+			// parallaxBackgroundSize: '2100px 900px',
+
+			// Optional libraries used to extend on reveal.js
+			dependencies: [
+				{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+				{ src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+				{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+				{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+				{ src: 'plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+				{ src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+			]
         });
     </script>
 </body>
