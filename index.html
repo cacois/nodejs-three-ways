@@ -642,6 +642,7 @@ function sendMessage(payload) {
                 <pre><code >
                 $ npm install -g express-generator
                 $ express -e ejs myapp
+                $ cd webapp
                 $ npm install
                 $ npm start
                 </code></pre>
@@ -677,7 +678,7 @@ function sendMessage(payload) {
         &lt;link rel='stylesheet' href='/stylesheets/style.css' /&gt;
       &lt;/head&gt;
       &lt;body&gt;
-        &lt;h1&gt;Hi, {% my_name %}&lt;/h1&gt;
+        &lt;h1&gt;Hi, <%= my_name %>&lt;/h1&gt;
         &lt;em&gt;we'll fill this in a minute..&lt;/em&gt;
       &lt;/body&gt;
     &lt;/html&gt;</code></pre>
@@ -784,13 +785,15 @@ function sendMessage(payload) {
 
             <section>
                 <h2>I'm writing to a database, but I can't see my data!</h2>
+                <img src="images/drwho.gif" />
                 <h3>Let's fix that.</h3>
             </section>
 
             <section>
-                <h2>Modify the route to fetch the data</h2>
+                <h2>Modify the route visit.js to fetch the data</h2>
                 <pre><code >
             ..
+
             var Visit = require("../models/visit.js");
 
             router.get('/', function(req, res) {
@@ -807,10 +810,10 @@ function sendMessage(payload) {
             </section>
 
             <section>
-                <h2>And modify the view to render it</h2>
+                <h2>And modify the visits.ejs to render it</h2>
                 <pre><code >
             ..
-            &lt;h1&gt;Hi, {% my_name %}&lt;/h1&gt;
+            &lt;h1&gt;Hi, <% my_name %>&lt;/h1&gt;
             &lt;% for(var v in visits){ %&gt;
               &lt;p&gt;&lt;%- visits[v] %&gt;&lt;/p&gt;
             &lt;% } %&gt;
@@ -865,20 +868,20 @@ function sendMessage(payload) {
 
             <section>
                 <h3>Socket.IO runs as its own server, alongside our Express app</h3>
+                <p>Put this snippet near the top of app.js, after 'app' is defined.</p>
                 <pre><code >
                     var server = require('http').createServer(app);
                     var io = require('socket.io').listen(server);
                     server.listen(3001);
                 </code></pre>
-                (put this in app.js)
             </section>
 
             <section>
                 <h3>We define "endpoints", or "namespaces" for the server, much like routes.</h3>
+                <p>Here, '/chat' is the namespace.</p>
+                <p>Put this snippet somewhere after 'io' is defined in app.js.</p>
                 <pre><code >
-            // -- '/chat' is the namespace identifier
-            // -- the callback function is the middleware we define
-            // -- for the namespace identifier
+            
             var chat = io.of('/chat').on('connection', function(socket){
                 socket.on('chat', function(data){
                     data.color = 'green';
@@ -888,22 +891,23 @@ function sendMessage(payload) {
                 });
             });
                 </code></pre>
-                (also put this in app.js)
             </section>
 
             <section>
                 <h3>This is just an HTML form, which will help us interact with the server from the client</h3>
+                <p>This snippet goes in index.ejs..</p>
                 <pre><code >
+        &lt;!-- somewhere in the BODY tag.. --&gt;
         &lt;div id="chatlog" style="height: 200px;overflow-y:scroll;"&gt;&lt;/div&gt;
         &lt;textarea id="chatwindow" cols="30" rows="10"&gt;&lt;/textarea&gt;
         &lt;input id="send_chat" type="submit" value="Send" /&gt;
                 </code></pre>
-                (this goes in our visits.ejs view)
             </section>
 
             <section>
-                <h3>Here is our client-side javascript, which connects to, reacts to, and sends messages to the server</h3>
+                <h3>Also in index.ejs we'll put our client-side javascript, which connects to, reacts to, and sends messages to the server</h3>
                 <pre><code >
+        &lt;!-- somewhere in the HEAD tag.. --&gt;
         &lt;script src="http://localhost:3001/socket.io/socket.io.js"&gt;&lt;/script&gt;
         &lt;script src="//code.jquery.com/jquery-1.10.2.min.js"&gt;&lt;/script&gt;
 
