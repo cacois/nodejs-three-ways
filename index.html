@@ -1128,7 +1128,7 @@ router.get('/', function(req, res) {
             &lt;h1&gt;Hi, <% my_name %>&lt;/h1&gt;
             &lt;h2&gt;Look who's visiting your site!&lt;/h2&gt;
             &lt;% for(var v in visits){ %&gt;
-              &lt;p&gt;&lt;%- visits[v] %&gt;&lt;/p&gt;
+              &lt;p&gt;&lt;%- visits[v].user_agent %&gt;&lt;/p&gt;
             &lt;% } %&gt;
             ..
                 </code></pre>
