@@ -6,8 +6,9 @@
   </head>
   <body>
     <h1>Hi, <%= my_name %></h1>
+    <h2>Look who's visiting your site!</h2>
     <% for(var v in visits){ %>
-       <p><%- visits[v] %></p>
+      <p><%- visits[v].user_agent %></p>
     <% } %>
   </body>
 </html>
