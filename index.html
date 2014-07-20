@@ -41,49 +41,11 @@
 
             <!-- Introduction -->
             <section>
-                <h2>Example two-column slide</h2>
-                <div class="column" style="float: left;margin: 0;width: 50%;">
-                    Content in here
-                    <pre><code class="javascript">
-fs = require('fs');
- 
-fs.readFile('f1.txt','utf8',
-
-function(err,data) {
-    if (err) {
-    // handle error
-       }
-       console.log(data);
-}
-
-);
-                    </code></pre>
-                </div>
-                <div class="column" style="float: left;margin: 0;width: 50%;">
-                    More content
-                    <pre><code class="javascript">
-fs = require('fs');
- 
-fs.readFile('f1.txt','utf8',
-
-function(err,data) {
-    if (err) {
-    // handle error
-       }
-       console.log(data);
-}
-
-);
-                    </code></pre>
-                </div>
-            </section>
-
-            <section>
                 <h2>Before we get started, Install These:</h2>
                 <br>
                 <div class="column" style="float: left;margin: 0;width: 29%;">
                     <h4>OSX</h4>
-                    <pre><code class="javascript">
+                    <pre><code class="bash">
 (if you have homebrew)
 
 $ brew install node
@@ -94,20 +56,18 @@ $ brew install mongo
                 </div>
                 <div class="column" style="float: left;margin: 0;width: 40%;">
                     <h4>Ubuntu/Debian</h4>
-                    <pre><code class="javascript">
+                    <pre><code class="bash">
 (use sudo if necessary)
 
 $ apt-get install nodejs
 $ apt-get install redis-server
 $ apt-get install mongodb
 $ apt-get install npm
-
-
                     </code></pre>
                 </div>
                 <div class="column" style="float: left;margin: 0;width: 31%;">
                     <h4>Windows</h4>
-                    <pre><code class="javascript">
+                    <pre><code class="bash">
 (using chocolatey)
 
 > cinst nodejs.install
@@ -116,10 +76,10 @@ $ apt-get install npm
                     </code></pre>
                 </div>
 
-<br><br><p>or go to:</p>
-<a href="http://www.nodejs.org">http://www.nodejs.org</a> |
-<a href="http://www.mongodb.org/downloads">http://www.mongodb.org/downloads</a> |
-<a href="http://redis.io/download">http://redis.io/download</a>
+<br><br><p>or for manual install instructions, go to:</p>
+<a href="http://www.nodejs.org">http://nodejs.org</a> |
+<a href="http://www.mongodb.org/downloads">http://mongodb.org</a> |
+<a href="http://redis.io/download">http://redis.io</a>
 <br>
 <br><p>And clone the workshop repo:</p>
 <pre><code class="javascript">
@@ -131,8 +91,11 @@ $ apt-get install npm
             <section>
                 <h1>Node.js Three Ways</h1>
                 <h2>A Tutorial in Three Acts</h2>
+                <br>
                 <p>Constantine Aaron Cois and Tim Palko</p>
                 <p>Carnegie Mellon University, Software Engineering Institute</p>
+                <br><p style="font-size: 11pt">Disclaimer: Though we are employees of the Software Engineering Institute at Carnegie Mellon University, this wok was not funded by the SEI and does not reflect the work or opinions of the SEI or its customers.
+</p>
             </section>
 
             <section>
@@ -355,15 +318,22 @@ $ apt-get install npm
 
             <section>
                 Now let's test. Write to the collecion in Redis:
+                <br><br>
                 <pre><code class="bash">
   $ redis-cli
 
   redis-cli> publish notifications '{"identifier": 1, "message": "Huzzah!"}'
+  (integer) 1
                 </code></pre>
+                <br>
+                The value after (integer) tell you how many subscribers received the published message
             </section>
 
             <section>
-                Received a message: Huzzah!
+                <pre><code class="bash">
+                  $ node worker.js
+                  Received a message: Huzzah!
+                </code></pre>
                 <br>
                <img src=./images/futurama-huzzah.jpg />
             </section>
@@ -382,9 +352,7 @@ $ apt-get install npm
             <section>
                 <h2>Config File</h2>
                 <br>
-                I like to use a module for config data
-                <br><br>
-                Create a file named config.js:
+                I like to use a module for config data. Create a file named config.js:
                 <pre><code class="bash">
                   $ touch config.js
                 </code></pre>
@@ -728,7 +696,7 @@ function sendMessage(payload) {
                 <pre><code class="markdown">
                     # Meet My App
                     App, audience. Audience, app.
-                </code></pre>                
+                </code></pre>
             </section>
 
             <section>
@@ -785,16 +753,16 @@ function sendMessage(payload) {
                 <pre><code class="bash">
                 // install express generator
                 $ npm install -g express-generator
-                
+
                 // create a new web application using ejs as the templating engine
                 $ express -e ejs myapp
-                
+
                 // change into the new web app folder
                 $ cd webapp
-                
+
                 // install dependencies
                 $ npm install
-                
+
                 // start the server
                 $ npm start
                 </code></pre>
@@ -1218,7 +1186,7 @@ router.get('/', function(req, res) {
 
             <section>
                 <h3>Also in index.ejs in the HEAD tag we'll put our client-side javascript, which connects to, reacts to, and sends messages to the server</h3>
-                
+
                 <pre><code class="html">
         &lt;script src="http://localhost:3001/socket.io/socket.io.js"&gt;&lt;/script&gt;
         &lt;script src="//code.jquery.com/jquery-1.10.2.min.js"&gt;&lt;/script&gt;
