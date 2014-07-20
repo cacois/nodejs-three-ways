@@ -979,7 +979,7 @@ module.exports = router;
             </section>
 
             <section>
-                <h3>again, let us visit</h3>
+                <h3>restart your server and check out</h3>
                 <h2>http://localhost:3000<b>/visits</b></h2>
             </section>
 
@@ -1023,21 +1023,25 @@ module.exports = router;
             <section>
                 <h2>And use that model to write data to mongo in app.js</h2>
                 <pre><code class="javascript">
+...
+// -- this can go near the top                
 var mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost/myapp');
-
+...
+// -- bunch this with the other requires
 var Visit = require("./models/visit.js");
 ...
 // -- we run some code inline with each request - a new request decorator
+// -- put this before the route handlers
 app.use(function(req, res, next){
     new Visit({user_agent: req.headers['user-agent']}).save();
     next();
 });
-...
-// -- put our request decorator ^^ before the route handlers
+
 app.use('/', routes);
 app.use('/users', users);
 app.use('/visits', visits); // -- the request assignment
+...
                 </code></pre>
             </section>
 
@@ -1051,6 +1055,11 @@ app.use('/visits', visits); // -- the request assignment
             </section>
 
             <section>
+                <h3>restart your server and check out</h3>
+                <h2>http://localhost:3000<b>/visits</b></h2>
+            </section>
+
+            <section>
                 <h2>I'm writing to a database, but I can't see my data!</h2>
                 <img src="images/drwho.gif" />
                 <h3>Let's fix that.</h3>
@@ -1058,6 +1067,7 @@ app.use('/visits', visits); // -- the request assignment
 
             <section>
                 <h2>Modify the route visits.js to fetch the data</h2>
+                <h3>Don't forget to pass visits to your view!</h3>
                 <pre><code class="javascript">
 ..
 
@@ -1084,15 +1094,16 @@ router.get('/', function(req, res) {
                 <pre><code class="html">
             ..
             &lt;h1&gt;Hi, <% my_name %>&lt;/h1&gt;
+            &lt;h2&gt;Look who's visiting your site!&lt;/h2&gt;
             &lt;% for(var v in visits){ %&gt;
-              &lt;p&gt;&lt;%- visits[v] %&gt;&lt;/p&gt;
+              &lt;p&gt;&lt;%- visits[v].user_agent %&gt;&lt;/p&gt;
             &lt;% } %&gt;
             ..
                 </code></pre>
             </section>
 
             <section>
-                <h3>once more, let us visit</h3>
+                <h3>restart your server and check out</h3>
                 <h2>http://localhost:3000<b>/visits</b></h2>
                 (keep refreshing, you'll see it)
             </section>
@@ -1198,6 +1209,12 @@ router.get('/', function(req, res) {
 
         &lt;/script&gt;
                 </code></pre>
+            </section>
+
+            <section>
+                <h3>restart your server and check out</h3>
+                <h2>http://localhost:3000/index</h2>
+                <h3>Try opening a few browser windows!</h3>
             </section>
 
             <!-- Act 3: Meteor.js and Reactive Apps -->
