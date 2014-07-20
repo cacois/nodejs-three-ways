@@ -1,5 +1,5 @@
 {
-  "name": "Basic Express App",
+  "name": "BasicExpressApp",
   "description": "A minimal NodeJS express web application",
   "version": "0.0.1",
   "private": true,
