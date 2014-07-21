@@ -242,6 +242,10 @@ $ apt-get install npm
             </section>
 
             <section>
+                <h1>Part 1</h1>
+            </section>
+
+            <section>
                 <h2>Create a project directory and file</h2>
                 <pre><code class="bash">
                   $ mkdir node-act1
@@ -250,10 +254,6 @@ $ apt-get install npm
                 </code></pre>
 
                 worker.js will be our asynchronous notification worker
-            </section>
-
-            <section>
-                <h1>Part 1</h1>
             </section>
 
             <section>
@@ -1304,7 +1304,10 @@ router.get('/', function(req, res) {
                 <p>This is basically a security nightmare, and can also bog down your app if you have lots of data. Let's disable it:
                 <pre><code class="bash">
                 $ meteor remove autopublish
+                autopublish: removed
                 </code></pre>
+                <br>
+                Note: this means we will have to specify collections to be published and subscribed to. It's for the best.
             </section>
             <section>
                 <h2>Now let's check out the generated code</h2>
@@ -1428,13 +1431,19 @@ router.get('/', function(req, res) {
                 <img src="./images/mongo_collections.png" width="80%"></img>
             </section>
             <section>
-                <h3>Create a reactive collection</h3>
+                <h2>Now let's create a reactive collection</h2>
+            </section>
+            <section>
                 <h4>mapit.js</h4>
                 <pre class="stretch"><code class="javascript">
-            Markers = new Meteor.collection('markers');
+            Markers = new Meteor.Collection('markers');
 
             if (Meteor.isClient) {
                 Meteor.subscribe("markers");
+
+                Template.markerlist.markers = function() {
+                    return Markers.find({});
+                };
             }
             if (Meteor.isServer) {
                 // Insert a marker if none exist
@@ -1492,7 +1501,7 @@ router.get('/', function(req, res) {
                 Open up two browser tabs/windows, and go to your app
             </section>
             <section>
-                [TWO BROWSER PICTURES]
+                <img class="stretch" src="images/2-screens.png"/>
             </section>
             <section>
                 <h3>The Test</h3>
@@ -1563,7 +1572,6 @@ Template.map.rendered = function() {
             L.marker(marker.coords).addTo(map);
         }
     });
-  }
 }
                 </code></pre>
             </section>
