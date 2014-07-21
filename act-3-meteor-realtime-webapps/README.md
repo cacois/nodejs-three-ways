@@ -1,24 +1,7 @@
-Generate your new ap
+See the [workshop slides](http://cacois.github.io/nodejs-three-ways/#/) for instructions on how to build the app.
 
-> meteor create mapit
-
-Add some packages for built-in authentication
-
-> meteor add accounts-password
-> meteor add accounts-ui
-
-Install meteorite, which will help us manage packages
-
-> npm install -g meteorite
-
-Add the Leaflet meteorite package, to add the Leaflet mapping library to our app
-
-> mrt add leaflet
-
-Start app
+Each sub directory represents an intermediate working code state, so you can go into any of them and launch meteor:
 
 > meteor
 
-Remove autopublish. This means we will explicitly set which collections are synced with clients.
-
-> meteor remove autopublish
+To see a working app.
