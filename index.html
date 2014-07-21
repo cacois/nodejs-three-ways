@@ -1695,10 +1695,60 @@ Template.map.rendered = function() {
                 <p>You can get the current user with Meteor.user(), or their userid by Meteor.userId()</p>
             </section>
             <section>
-                [If we have time, wire users in to markers]
+                <h3>Now we can record the user who created a marker</h3>
+                <p>Make the following changes:</p>
+                <br>
+                <p>mapit.js -- window.map.on('dblclick'...)</p>
+                <pre><code class="javascript">
+    window.map.on('dblclick', function(event, object) {
+        // We're storing the marker coordinates in an extensibel JSON
+        // data structure, to leave room to add more info later
+        console.log("inserting marker: " + event.latlng);
+
+        // ADDED
+        // check for user, override if no one is logged in
+        var username;
+        if(Meteor.user()) username = Meteor.user().emails[0].address;
+        else username = "anonymous";
+
+        Markers.insert({"coords": [event.latlng.lat,event.latlng.lng],
+                        "user": username }); // CHANGED
+    });
+                </code></pre>
+
             </section>
+
             <section>
-                <p>And so, we leave you to boldly go and</p>
+                <p>mapit.js -- markers.observe()</p>
+                <pre><code class="javascript">
+        markers.observe({
+            // When a new marker is added collection, add it to the map
+            added: function(marker) {
+                // CHANGE
+                L.marker(marker.coords).addTo(map).bindPopup(marker.user);
+            }
+        });
+                </code></pre>
+                <p>mapit.html -- markerlist template</p>
+                <pre><code class="html">
+    <template name="markerlist">
+      {{#each markers}}
+        <div>
+          <b>Marker</b><br>
+          <span>-- Coordinates: {{coords}}</span><br>
+          <span>-- User: {{user}}</span><br> <!-- ADD ME! -->
+        </div><br>
+      {{/each}}
+    </template>
+                </code></pre>
+            </section>
+
+            <section>
+                <img class="stretch" src="images/act3-final.png"/>
+            </section>
+
+            <section>
+                <p>And so, we leave you to boldly go, and</p>
                 <img class="stretch" src="images/picard.jpg"/>
             </section>
             <section>
