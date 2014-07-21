@@ -1,6 +1,6 @@
-nodejs-three-ways
-=================
+Node.js Three Ways
+==================
 
-Completed projects form the OSCON 2014 tutorial: Node.js Three Ways.
+Completed projects from the OSCON 2014 tutorial: Node.js Three Ways.
 
-View the slides for this workshop [here](http://cacois.github.io/nodejs-three-ways/#/)
+Check out the tutorial slides [here](http://cacois.github.io/nodejs-three-ways/#/) for step-by-step instructions on creating these projects.
