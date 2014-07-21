@@ -438,6 +438,8 @@ $ apt-get install mongodb
             <section>
                 <h3>worker.js should look like this:</h2>
                 <pre class="stretch"><code class="javascript" style="font-size: 13pt">
+
+
       // import the redis module
       var redis = require("redis");
 
@@ -859,7 +861,7 @@ var server = app.listen(app.get('port'), function() {
             <section>
               <h2>package.json</h2>
               <h3>same old package.json</h3>
-              <pre><code>
+              <pre class="stretch"><code>
 {
   "name": "newapp",
   "version": "0.0.1",
@@ -984,7 +986,7 @@ module.exports = router;
             </section>
 
             <section>
-                <h2>Right, back to the database and models</h2>
+                <h3>Right, back to the database and models</h3>
             </section>
 
             <section>
@@ -1021,10 +1023,10 @@ module.exports = router;
             </section>
 
             <section>
-                <h2>And use that model to write data to mongo in app.js</h2>
-                <pre><code class="javascript">
+                <h3>And use that model to write data to mongo in app.js</h3>
+                <pre class="stretch"><code class="javascript">
 ...
-// -- this can go near the top                
+// -- this can go near the top
 var mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost/myapp');
 ...
@@ -1066,11 +1068,10 @@ app.use('/visits', visits); // -- the request assignment
             </section>
 
             <section>
-                <h2>Modify the route visits.js to fetch the data</h2>
-                <h3>Don't forget to pass visits to your view!</h3>
-                <pre><code class="javascript">
-..
-
+                <h3>Modify the route visits.js to fetch the data</h3>
+                <h4>Don't forget to pass visits to your view!</h4>
+                <pre class="stretch"><code class="javascript">
+...
 var Visit = require("../models/visit.js"); // -- new require
 
 router.get('/', function(req, res) {
@@ -1085,7 +1086,7 @@ router.get('/', function(req, res) {
     res.render('visits', { my_name: "Tim", visits: visits });
   });
 });
-..
+...
                 </code></pre>
             </section>
 
@@ -1186,28 +1187,25 @@ router.get('/', function(req, res) {
             <section>
                 <h3>Also in index.ejs in the HEAD tag we'll put our client-side javascript, which connects to, reacts to, and sends messages to the server</h3>
 
-                <pre><code class="html">
-        &lt;script src="http://localhost:3001/socket.io/socket.io.js"&gt;&lt;/script&gt;
-        &lt;script src="//code.jquery.com/jquery-1.10.2.min.js"&gt;&lt;/script&gt;
+                <pre class="stretch"><code class="html">
+    &lt;script src="http://localhost:3001/socket.io/socket.io.js"&gt;&lt;/script&gt;
+    &lt;script src="//code.jquery.com/jquery-1.10.2.min.js"&gt;&lt;/script&gt;
+    &lt;script type="text/javascript"&gt;
 
-        &lt;script type="text/javascript"&gt;
+        var chat_socket = io.connect('http://localhost:3001/chat');
 
-            var chat_socket = io.connect('http://localhost:3001/chat');
-
-            chat_socket.on('chat', function(data){
-                $("#chatlog")
-                    .append(
-                        $("&lt;p style='color:" + data.color + ";'&gt;&lt;/p&gt;")
-                            .text(data.isay)
-                    );
-            });
-
-            $(document).on('click', "#send_chat", function(e){
-                chat_socket.emit('chat', {isay: $("#chatwindow").val()});
-                $("#chatwindow").val("");
-            });
-
-        &lt;/script&gt;
+        chat_socket.on('chat', function(data){
+            $("#chatlog")
+                .append(
+                    $("&lt;p style='color:" + data.color + ";'&gt;&lt;/p&gt;")
+                        .text(data.isay)
+                );
+        });
+        $(document).on('click', "#send_chat", function(e){
+            chat_socket.emit('chat', {isay: $("#chatwindow").val()});
+            $("#chatwindow").val("");
+        });
+    &lt;/script&gt;
                 </code></pre>
             </section>
 
@@ -1241,12 +1239,17 @@ router.get('/', function(req, res) {
             </section>
             <section>
                 <h2>Meteor is designed for single page apps</h2><br>
-                <h4>So, no routing or multiple views out of the box</h4>
-                (Though you can add them with packages)
+                So, no routing or multiple views out of the box
+                <br><br>
+                (Though you can add these features with packages)
             </section>
             <section>
                 <h2>Let's check it out</h2>
-                <h3>Install Meteor, and create a new dir</h3>
+                <br>
+                <h3>We're going to make an interactive, real-time map</h3>
+            </section>
+            <section>
+                <h2>Install Meteor, and create a new dir</h2>
                 <pre><code class="bash">
                 $ npm install meteor -g
                 $ mkdir node-act3
@@ -1255,15 +1258,25 @@ router.get('/', function(req, res) {
             </section>
             <section>
                 <h2>Meteor has a generator, too!</h2>
+                <br>
+                <h4>Generate your app</h4>
                 <pre><code class="bash">
                 $ meteor create mapit
                 $ cd mapit
                 $ meteor
-                </code></pre>
-                <h4>Run "meteor --help" if you want to see behind the curtain</h4>
+                [[[[[ ~/Dropbox/Code/test/mapit ]]]]]
 
-                <h3>and visit</h3>
-                <h2>http://localhost:3000</h2>
+                => Started proxy.
+                => Started MongoDB.
+                => Started your app.
+
+                => App running at: http://localhost:3000/
+                </code></pre>
+                <br>
+                <h4>Run "meteor --help" if you want to see behind the curtain</h4>
+            </section>
+            <section>
+                <img src="images/mapit-hello.png">
             </section>
             <section>
                 <h2>You'll notice that meteor claims it has started MongoDB</h2>
@@ -1275,40 +1288,58 @@ router.get('/', function(req, res) {
             </section>
             <section>
                 <h2>Just kidding!</h2>
+                <br>
                 <h3>It's really because meteor has installed its own</h3><h3> embedded instance of Mongodb</h3>
                 <br>
-                <h4>You can access it anytime using:</h4>
+                <h3>You can access it anytime using:</h3>
                 <pre><code class="bash">
                 $ meteor mongo
                 </code></pre>
             </section>
             <section>
-                <h2>Let's check out the generated code</h2>
-            </section>
-            <section>
-                <h2>Fibers</h2>
-                <h3>Meteor uses a node.js library called <em>fibers</em>,</h3>
-                <h3>which allows sequential execution of async functions, without callbacks</h3>
-            </section>
-            <section>
-                <h2>We don't have time to go into how fibers works, but it's pretty cool</h2>
+                <h2>Autopublish</h2>
+                <p>By default, Meteor publishes all collections to client automatically. </p>
                 <br>
-                <h4>If you want to learn more: </h4>
-                http://howtonode.org/generators-vs-fibers
-                http://meteorhacks.com/fibers-eventloop-and-meteor.html
+                <p>This is basically a security nightmare, and can also bog down your app if you have lots of data. Let's disable it:
+                <pre><code class="bash">
+                $ meteor remove autopublish
+                </code></pre>
             </section>
             <section>
-                <h2>This means meteor apps are straightforward to program</h2>
-                <br>
-                <h3>At the cost of some "framework magic"</h3>
+                <h2>Now let's check out the generated code</h2>
             </section>
             <section>
                 <h2>Meteor uses 3 default files:</h2>
                 <ul>
-                    <li>mapit.js -- client javascript and server code-behind</li>
-                    <li>mapit.css -- styles</li>
+                    <li>mapit.js -- client/server javascript</li>
                     <li>mapit.html -- client template/view</li>
+                    <li>mapit.css -- stylez</li>
                 </ul>
+            </section>
+            <section>
+                <h3>mapit.js</h3>
+                <pre class="stretch"><code class="javascript">
+                    if (Meteor.isClient) {
+                      Template.hello.greeting = function () {
+                        return "Welcome to mapit.";
+                      };
+
+                      Template.hello.events({
+                        'click input': function () {
+                          // template data, if any, is available in 'this'
+                          if (typeof console !== 'undefined')
+                            console.log("You pressed the button");
+                        }
+                      });
+                    }
+
+                    if (Meteor.isServer) {
+                      Meteor.startup(function () {
+                        // code to run on server at startup
+                      });
+                    }
+
+                </code></pre>
             </section>
             <section>
                 <h2>You'll see two sections in the mapit.js file:</h2>
@@ -1327,48 +1358,338 @@ router.get('/', function(req, res) {
                 <h3>That's the beauty of an all-JavaScript app</h3>
             </section>
             <section>
-                <h2>Collections</h2>
-                <h4>Meteor stores data as javascipt objects in MongoDB collections</h4>
-                <img src="./images/mongo_collections.png" width="80%"></img>
-            </section>
-            <section>
-                <h2>But forget about HTTP POSTS or AJAX</h2>
-                <br>
-                <h3>With meteor you don't need them. Meteor handles all data synchronization between client and server</h3>
-                <br>
-                <h3>Collections are accessed as reactive streams of data</h3>
-            </section>
-            <section>
-                <h1>Check this out</h1>
-                <br>
-                <h2>mapit.js:</h2>
-                <pre><code class="javascript">
-                    Messages = new Meteor.collection('messages');
-                    if (Meteor.isClient) {
+                <h3>mapit.html</h3>
+                <pre><code class="html">
+                    &lt;head>
+                      <title>mapit</title>
+                    &lt;/head>
 
-                    }
-                    if (Meteor.isServer) {
-                        Meteor.startup(function () {
-                            Messages.insert({'text': 'First message'});
-                            Messages.insert({'text': 'Here\'s another'});
-                        }
+                    &lt;body>
+                      {{> hello}}
+                    &lt;/body>
 
-                        Meteor.publish("markers", function () {
-                            return Markers.find();
-                        });
-                    }
+                    <template name="hello">
+                      <h1>Hello World!</h1>
+                      {{greeting}}
+                      <input type="button" value="Click" />
+                    </template>
                 </code></pre>
             </section>
             <section>
+                <h3>Templates</h3>
+                Meteor uses a slightly modified version of Handlebars templates (called Spacebars)
+                <pre><code class="html">
+                    ..
+                    &lt;body>
+                        <div>
+                            {{> mytemplate}}
+                        </div>
+                    &lt;/body>
+                    ..
+                    <template name="mytemplate">
+                        <div>
+                            <b>{{someValue}}</b>
+                        </div>
+                    </template>
+                </code></pre>
+                Inside the template, you can access data from the server-side
+                But in Meteor, this data will update <em><b>reactively</b></em>
+            </section>
+            <section>
+                <h3>I don't see any callbacks, and that makes me</h3><h3> uncomfortable</h3>
+                <img src="images/uncomfortable.gif">
+            </section>
+            <section>
+                <h2>Fibers</h2>
+                <br>
+                <h3>Meteor uses a node.js library called <em>fibers</em>,</h3>
+                <h3>which allows sequential execution of async functions, without callbacks</h3>
+            </section>
+            <section>
+                <h2>We don't have time to go into how fibers works, but it's pretty cool</h2>
+                <br>
+                <h3>If you want to learn more: </h3>
+                <a href="http://howtonode.org/generators-vs-fibers">http://howtonode.org/generators-vs-fibers</a>
+                <a href="http://meteorhacks.com/fibers-eventloop-and-meteor.html">http://meteorhacks.com/fibers-eventloop-and-meteor.html</a>
 
             </section>
             <section>
+                <h2>This means meteor apps are straightforward to program</h2>
+                <br>
+                <h3>At the cost of some "framework magic"</h3>
+            </section>
+            <section>
+                <h2>Let's replace that generated code with something better</h2>
+            </section>
+            <section>
+                <h2>Collections</h2>
+                <h4>Meteor stores data as JSON objects in MongoDB collections</h4>
+                <img src="./images/mongo_collections.png" width="80%"></img>
+            </section>
+            <section>
+                <h3>Create a reactive collection</h3>
+                <h4>mapit.js</h4>
+                <pre class="stretch"><code class="javascript">
+            Markers = new Meteor.collection('markers');
+
+            if (Meteor.isClient) {
+                Meteor.subscribe("markers");
+            }
+            if (Meteor.isServer) {
+                // Insert a marker if none exist
+                if(Markers.find().count() == 0) {
+                    console.log("No markers found in collection - inserting one");
+                    Markers.insert({"coords": [49.25044, -123.137]});
+                }
+
+                // publish collection to client
+                Meteor.publish("markers", function () {
+                    // you can specify constraints in find() query, if desired
+                    return Markers.find();
+                });
+            }
+                </code></pre>
+                This 'marker' collection will later put points on our map
+            </section>
+            <section>
+                <h3>Now visualize the collection</h3>
+                <h4>mapit.html</h4>
+                <pre class="stretch"><code class="html">
+            &lt;head>
+              <title>mapit</title>
+            &lt;/head>
+            &lt;body>
+                <div>
+                    {{> markerlist}}
+                </div>
+            &lt;/body>
+
+            <template name="markerlist">
+              {{#each markers}}
+                <div>
+                  <b>Marker</b><br>
+                  <span>-- Coordinates: {{coords}}</span><br>
+                </div><br>
+              {{/each}}
+            </template>
+
+                </code></pre>
+            </section>
+
+            <section>
+                <h2>Forget about HTTP POSTS or AJAX</h2>
+                <br>
+                <h3>With Meteor you don't need them. Meteor handles all data synchronization between client and server</h3>
+                <br>
+                <h3>Collections are accessed as reactive streams of data</h3>
+            </section>
+
+
+            <section>
+                <h3>Let's try it with our marker collection</h3>
+                <br>
+                Open up two browser tabs/windows, and go to your app
+            </section>
+            <section>
+                [TWO BROWSER PICTURES]
+            </section>
+            <section>
+                <h3>The Test</h3>
+                <p>Since the <em>Marker</em> collection is shared between client and server, we can access it from clitne-side debug tools.</p>
+                <br>
+                Pull up your debug console on one tab, and add another marker:
+                <pre><code class="javascript">
+            > Markers.insert({"coords": [48, -123]});
+                </code></pre>
+
+                <p>You'll see this marker appear in the list of both clients</p>
 
             </section>
             <section>
-
+                <h1>Part 2</h1>
+<br>
+    If your code has errors, start with the files from directory
+    <b><p> /act-3-meteor-realtime-webapps/begin-part-2/ </p></b>
             </section>
             <section>
+                <h1>Map!</h1>
+                <br><br>
+                <h3>Now add the interactive map</h3>
+                <p>We're going to use Leaflet.js. Since Meteor is a highly customized framework, adding a standard JavaScript library may be a bit tricky...</p>
+            </section>
+            <section>
+                <h2>Luckily, there's Meteorite</h2>
+                <br>
+                <p>Meteorite is a package manager for Meteor, similar to NPM</p>
+                <br><p>Go ahead and install the meteorite client:</p>
+                <pre><code class="bash">
+                $ npm install -g meteorite
+                </code></pre>
+                <br>
+                <p>You can search Meteorite packages at [PUT LINK HERE]</p>
+            </section>
+            <section>
+                <h2>Install Leaflet.js</h2>
+                <br>
+                <p>Since there is already a Meteorite package for Leaflet, this becomes very easy:
+                <pre><code class="bash">
+                $ mrt add leaflet
+                </code></pre>
+            </section>
+            <section>
+                <h2>Make a template for the map control, and add it to the view</h2>
+            </section>
+            <section>
+                <p>Add the following to the client section of mapit.js:</p>
+                <pre class="stretch"><code class="javascript">
+Template.map.rendered = function() {
+    L.Icon.Default.imagePath = 'packages/leaflet/images';
+
+    // initialize Leaflet map object
+    window.map = L.map('map', {
+      doubleClickZoom: false,
+      zoomControl:false
+    }).setView([45.52854352208366,-122.66302943229674], 13);
+
+    L.tileLayer.provider('Thunderforest.Outdoors').addTo(map);
+
+    var markers = Markers.find(); // db cursor Markers
+
+    // Watch the Markers collection for 'add' action
+    markers.observe({
+        // When a new marker is added collection, add it to the map
+        added: function(marker) {
+            L.marker(marker.coords).addTo(map);
+        }
+    });
+  }
+}
+                </code></pre>
+            </section>
+            <section>
+                <p>Update mapit.html:</p>
+                <pre class="stretch"><code class="html">
+&lt;head>
+  <title>mapit</title>
+&lt;/head>
+&lt;body>
+    <div>
+      <div style="width: 75%; margin: 10px; float: left">
+        {{> map}}
+      </div>
+      <div style="width: 20%; float: right; margin-top:90px;">
+        {{> markerlist}}
+      </div>
+    </div>
+&lt;/body>
+
+&lt;template name="map">
+    <div id="container">
+      <h1 class="title">Mapit!</h1>
+      <div id="map" class="map"></div>
+    </div>
+&lt;/template>
+...
+                </code></pre>
+            </section>
+            <section>
+                <h3>Now anytime a marker is added, it will appear on the map</h3>
+                <br>
+                <p>Next, add a double-click handler to the map template:</p>
+                <pre><code class="javascript">
+        // assign click event to add markers
+        window.map.on('dblclick', function(event, object) {
+            // We're storing the marker coordinates in an extensibel JSON
+            // data structure, to leave room to add more info later
+            console.log("inserting marker: " + event.latlng);
+            Markers.insert({"coords": [event.latlng.lat,event.latlng.lng]});
+        });
+                </code></pre>
+            </section>
+            <section>
+                <h2>Try it out!</h2>
+                <br><br>
+                <h3>Double-clicks should add markers reactively, meaning all clients will see them immediately</h3>
+            </section>
+            <section>
+                <h1>Part 3</h1>
+<br>
+    If your code has errors, start with the files from directory
+    <b><p> /act-3-meteor-realtime-webapps/begin-part-3/ </p></b>
+            </section>
+            <section>
+                <h2>Users</h2>
+                <p>Let's add one last feature - Users</p>
+            </section>
+            <section>
+                <h2>Meteor Packages</h2>
+                <br><br>
+                <p>You've seen Meteorite packages, but Meteor has its own subset of packages included, including packages for built-in user auth</p>
+                <br>
+                <p>Add user auth funcitonality this way:</p>
+                <pre><code class="bash">
+                $ meteor add accounts-password
+                $ meteor add accounts-ui
+                </code></pre>
+            </section>
+            <section>
+                <h3>Now for a lot of work to enable user auth:</h3>
+                <p>Update mapit.html:</p>
+                <pre class="stretch"><code class="html">
+    &lt;body>
+        <!--BOOM. Free authentication. -->
+        <div>
+          {{> loginButtons}}
+        </div>
+
+        <div>
+          <div style="width: 75%; margin: 10px; float: left">
+            {{> map}}
+          </div>
+          <div style="width: 20%; float: right; margin-top:90px;">
+            {{> markerlist}}
+          </div>
+        </div>
+    &lt;/body>
+    ...
+                </code></pre>
+            </section>
+            <section>
+                [INSERT PICTURE OF LOGIN UI]
+                <p>You can get the current user with Meteor.user(), or their userid by Meteor.userId()</p>
+            </section>
+            <section>
+                [If we have time, wire users in to markers]
+            </section>
+            <section>
+                <p>And so, we leave you to boldly go and</p>
+                <img class="stretch" src="images/picard.jpg"/>
+            </section>
+            <section>
+                <h2>Thank you!</h2>
+                <br>
+                <div>
+                    <p>All code and slides frmm this workshop can be found at:</p>
+                    <a href="https://github.com/cacois/nodejs-three-ways">https://github.com/cacois/nodejs-three-ways</a>
+                </div>
+                <br>
+                <br>
+
+                <div>
+                    <div class="column" style="float: left;margin: 0;width: 50%;">
+                        <p style="text-align: left;margin-left: 0;">Aaron = </p>
+                        <p style="text-align: left;margin-left: 0;">{</p>
+                        <p style="text-align: left;margin-left: 30;">twitter: <a href="https://twitter.com/aaroncois">@aaroncois</a>,</p>
+                            <p style="text-align: left;margin-left: 30;">blog: <a href="www.codehenge.net">www.codehenge.net</a>,</p>
+                            <p style="text-align: left;margin-left: 30;">github: <a href="http://github.com/cacois">github.com/cacois </a></p>
+                            <p style="text-align: left;margin-left: 0;">}</p>
+                    </div>
+                    <div class="column" style="float: left;margin: 0;width: 50%;">
+                        <p style="text-align: left;margin-left: 0;">Tim =</p>
+                        <p style="text-align: left;margin-left: 0;">{</p>
+                        <p style="text-align: left;margin-left: 0;">}</p>
+                    </div>
+                </div>
 
             </section>
 
