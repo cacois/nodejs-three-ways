@@ -1,0 +1,17 @@
+<head>
+  <title>mapit</title>
+</head>
+<body>
+    <div>
+        {{> markerlist}}
+    </div>
+</body>
+
+<template name="markerlist">
+  {{#each markers}}
+    <div>
+      <b>Marker</b><br>
+      <span>-- Coordinates: {{coords}}</span><br>
+    </div><br>
+  {{/each}}
+</template>
