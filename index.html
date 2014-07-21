@@ -524,7 +524,7 @@ function acquireLock(payload, callback) {
 
     client.setnx(lockIdentifier, "Worker Name", function(error, success) {
         if (error) {
-            logger.error("Error acquiring lock for: %s", lockIdentifier);
+            console.log("Error acquiring lock for: %s", lockIdentifier);
             return callback(error, dataForCallback(false));
         }
 
