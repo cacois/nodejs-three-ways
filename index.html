@@ -1601,11 +1601,31 @@ Template.map.rendered = function() {
 ...
                 </code></pre>
             </section>
+
+            <section>
+                <h3>And a little CSS</h3>
+                <br>
+                <p> mapit.css</p>
+                <pre><code>
+    #map {
+      height: 700px;
+      margin: 0 auto;
+    }
+                </code></pre>
+            </section>
+
+            <section>
+                <img src="images/map1.png"/>
+            </section>
+
             <section>
                 <h3>Now anytime a marker is added, it will appear on the map</h3>
                 <br>
-                <p>Next, add a double-click handler to the map template:</p>
+                <p>Next, add a double-click handler to the map template, so we can add markers through the UI.</p>
+                <br>
+                <p> Edit the Template.map.rendered function in mapit.js to add this feature:</p>
                 <pre><code class="javascript">
+        ..
         // assign click event to add markers
         window.map.on('dblclick', function(event, object) {
             // We're storing the marker coordinates in an extensibel JSON
@@ -1613,6 +1633,7 @@ Template.map.rendered = function() {
             console.log("inserting marker: " + event.latlng);
             Markers.insert({"coords": [event.latlng.lat,event.latlng.lng]});
         });
+        ..
                 </code></pre>
             </section>
             <section>
@@ -1664,7 +1685,13 @@ Template.map.rendered = function() {
                 </code></pre>
             </section>
             <section>
-                [INSERT PICTURE OF LOGIN UI]
+                <img src="images/meteor-signin.png">
+            </section>
+            <section>
+                <img src="images/meteor-auth.png">
+            </section>
+            <section>
+                <img src="images/meteor-loggedin.png">
                 <p>You can get the current user with Meteor.user(), or their userid by Meteor.userId()</p>
             </section>
             <section>
