@@ -713,8 +713,8 @@ function sendMessage(payload) {
                         res.send("hi there");
                     });
 
-                    var server = app.listen(4000, function(){
-                        console.log("Listening on 4000");
+                    var server = app.listen(3000, function(){
+                        console.log("Listening on 3000");
                     });
                 </code></pre>
             </section>
@@ -730,9 +730,12 @@ function sendMessage(payload) {
                 <h2>Step 5: Run it</h2>
                 <pre><code class="bash">
                     $ node app.js
+                    Listening on 3000
                 </code></pre>
                 <h4>and visit</h4>
-                <h2>http://localhost:4000</h2>
+                <h2>http://localhost:3000</h2>
+
+                <img src="images/act2part1_screenshot.png" />
             </section>
 
             <section>
@@ -755,24 +758,22 @@ function sendMessage(payload) {
             <section>
                 <h2>Express Generator</h2>
                 <pre><code class="bash">
-                // install express generator
-                $ npm install -g express-generator
+// install express generator
+$ npm install -g express-generator
 
-                // create a new web application using ejs as the templating engine
-                $ express -e ejs myapp
+// create a new web application using ejs as the templating engine
+$ express -e ejs myapp
 
-                // change into the new web app folder
-                $ cd webapp
+$ cd webapp
+$ npm install
+$ npm start
 
-                // install dependencies
-                $ npm install
-
-                // start the server
-                $ npm start
+> bigwin@0.0.1 start /where/you/cloned/the/repo/nodejs-three-ways/act-2-part-2-advanced-express/begin-part-1/bigwin
+> node ./bin/www
                 </code></pre>
-                <h4>(As Always, Run a command with '--help' and grok before executing)</h4>
-                <h3>and visit</h3>
-                <h2>http://localhost:3000</h2>
+                <h3>and visit http://localhost:3000</h3>
+
+                <img src="images/act2part2_begin1_screenshot.png" />
             </section>
 
             <section>
@@ -986,6 +987,7 @@ module.exports = router;
             <section>
                 <h3>restart your server and check out</h3>
                 <h2>http://localhost:3000<b>/visits</b></h2>
+                <img src="images/act2part2_begin2_screenshot.png" />
             </section>
 
             <section>
@@ -1056,6 +1058,9 @@ app.use('/visits', visits); // -- the request assignment
                 <pre><code class="bash">
                     # in a Mac OS X terminal
                     $ mongod --config /usr/local/etc/mongod.conf
+
+                    # in Ubuntu
+                    $ mongod --config /etc/mongodb.conf
                 </code></pre>
             </section>
 
@@ -1110,6 +1115,7 @@ router.get('/', function(req, res) {
                 <h3>restart your server and check out</h3>
                 <h2>http://localhost:3000<b>/visits</b></h2>
                 (keep refreshing, you'll see it)
+                <img src="images/act2part2_begin4_screenshot.png" />
             </section>
 
             <section>
@@ -1214,8 +1220,16 @@ router.get('/', function(req, res) {
 
             <section>
                 <h3>restart your server and check out</h3>
-                <h2>http://localhost:3000/index</h2>
+                <h2>http://localhost:3000</h2>
                 <h3>Try opening a few browser windows!</h3>
+                <div class="stretch">
+                    <div class="column" style="float: left;margin: 0;width: 50%;">
+                      <img src="images/act2part2_begin5_screenshota.png" />
+                    </div>
+                    <div class="column" style="float: left;margin: 0;width: 50%;">
+                      <img src="images/act2part2_begin5_screenshotb.png" />
+                    </div>
+                </div>
             </section>
 
             <!-- Act 3: Meteor.js and Reactive Apps -->
