@@ -64,7 +64,7 @@ if (Meteor.isClient) {
 
 if (Meteor.isServer) {
   Meteor.startup(function () {
-    // code to run on server at startup
+    // Insert a marker if none exist
     if(Markers.find().count() == 0) {
       console.log("No markers found in collection - inserting one");
       Markers.insert({"coords": [49.25044, -123.137]});
