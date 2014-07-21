@@ -1,0 +1,15 @@
+{
+  "meteor": {},
+  "dependencies": {
+    "basePackages": {
+      "leaflet": {}
+    },
+    "packages": {
+      "leaflet": {
+        "git": "https://github.com/bevanhunt/meteor-leaflet.git",
+        "tag": "v0.3.8",
+        "commit": "84caaa2e8aac1c7f7b585a6b64163a1de406add4"
+      }
+    }
+  }
+}

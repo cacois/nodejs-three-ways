@@ -1,0 +1,34 @@
+<head>
+  <title>mapit</title>
+</head>
+<body>
+    <!--BOOM. Free authentication. -->
+    <div>
+      {{> loginButtons}}
+    </div>
+    <div>
+      <div style="width: 75%; margin: 10px; float: left">
+        {{> map}}
+      </div>
+      <div style="width: 20%; float: right; margin-top:90px;">
+        {{> markerlist}}
+      </div>
+    </div>
+</body>
+
+<template name="map">
+    <div id="container">
+      <h1 class="title">Mapit!</h1>
+      <div id="map" class="map"></div>
+    </div>
+</template>
+
+<template name="markerlist">
+  {{#each markers}}
+    <div>
+      <b>Marker</b><br>
+      <span>-- Coordinates: {{coords}}</span><br>
+      <span>-- User: {{user}}</span><br>
+    </div><br>
+  {{/each}}
+</template>
